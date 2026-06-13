@@ -452,19 +452,26 @@ function renderTable() {
       if (hasPlaces) {
         var placesDiv = document.createElement('div');
         placesDiv.className = 'reason-places hidden';
+        // Group by place name, merging years across multiple visit rows
+        var placeMap = new Map();
         rv.forEach(function(v) {
           v.places.forEach(function(p) {
-            var entry = document.createElement('div');
-            entry.className = 'place-entry';
-            var nm = document.createElement('span');
-            nm.textContent = p;
-            var yr = document.createElement('span');
-            yr.className = 'place-year';
-            yr.textContent = v.year;
-            entry.appendChild(nm);
-            entry.appendChild(yr);
-            placesDiv.appendChild(entry);
+            if (!placeMap.has(p)) placeMap.set(p, []);
+            if (!placeMap.get(p).includes(v.year)) placeMap.get(p).push(v.year);
           });
+        });
+        placeMap.forEach(function(years, placeName) {
+          years.sort();
+          var entry = document.createElement('div');
+          entry.className = 'place-entry';
+          var nm = document.createElement('span');
+          nm.textContent = placeName;
+          var yr = document.createElement('span');
+          yr.className = 'place-year';
+          yr.textContent = years.join(', ');
+          entry.appendChild(nm);
+          entry.appendChild(yr);
+          placesDiv.appendChild(entry);
         });
         block.appendChild(placesDiv);
         hdr.addEventListener('click', function(e) {
