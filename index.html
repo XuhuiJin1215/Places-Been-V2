@@ -17,13 +17,11 @@
 }
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',sans-serif;font-size:14px;line-height:1.5;}
 
-/* Loading */
 #loading{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:9999;flex-direction:column;gap:14px;}
 .spinner{width:32px;height:32px;border:2px solid rgba(79,156,249,0.2);border-top-color:var(--accent);border-radius:50%;animation:spin 0.75s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
 .loading-txt{color:var(--muted);font-size:13px;}
 
-/* App */
 #app{display:flex;flex-direction:column;height:100%;}
 header{display:flex;align-items:center;justify-content:space-between;padding:0 1.5rem;height:54px;border-bottom:0.5px solid var(--border);flex-shrink:0;}
 .logo{font-size:15px;font-weight:600;letter-spacing:0.02em;}
@@ -33,7 +31,6 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 1
 .hstat-val{font-size:17px;font-weight:600;color:var(--accent);line-height:1;}
 .hstat-lbl{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;}
 
-/* Tabs */
 .tabs{display:flex;border-bottom:0.5px solid var(--border);flex-shrink:0;padding:0 1.5rem;}
 .tab{padding:10px 18px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-0.5px;transition:color 0.15s,border-color 0.15s;user-select:none;}
 .tab:hover{color:var(--text);}
@@ -41,7 +38,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 1
 .tab-panel{display:none;flex:1;min-height:0;}
 .tab-panel.active{display:flex;flex-direction:column;}
 
-/* ══ TAB 1 — LIST ══ */
+/* TAB 1 */
 .list-wrap{display:flex;flex:1;min-height:0;flex-direction:column;}
 .toolbar{display:flex;align-items:center;gap:10px;padding:10px 1.5rem;border-bottom:0.5px solid var(--border);flex-shrink:0;flex-wrap:wrap;}
 .toolbar-search{position:relative;flex:1;min-width:160px;max-width:280px;}
@@ -70,40 +67,36 @@ tbody td{padding:11px 14px;vertical-align:middle;}
 .expand-icon{display:inline-block;transition:transform 0.2s;font-size:11px;color:var(--muted);}
 .city-row.expanded .expand-icon{transform:rotate(90deg);}
 .years-cell{font-size:12px;color:var(--muted);}
-
-/* Category pills in table */
 .cat-pills{display:flex;flex-wrap:wrap;gap:5px;}
 .cat-pill{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:20px;font-size:11px;background:var(--panel2);border:0.5px solid var(--border2);color:var(--muted);}
 .cat-pill img{width:13px;height:13px;object-fit:contain;opacity:0.8;}
 
-/* Detail row */
 tr.detail-row td{padding:0;border-bottom:0.5px solid var(--border2);}
 .detail-inner{overflow:hidden;max-height:0;transition:max-height 0.3s ease;}
-.detail-inner.open{max-height:1000px;}
+.detail-inner.open{max-height:1200px;}
 .detail-content{padding:12px 14px 16px 42px;display:flex;flex-direction:column;gap:8px;}
-
-/* Reason block */
 .reason-block{background:var(--panel2);border:0.5px solid var(--border);border-radius:var(--radius);overflow:hidden;}
-.reason-header{display:flex;align-items:center;gap:8px;padding:8px 12px;cursor:pointer;user-select:none;}
-.reason-header:hover{background:rgba(255,255,255,0.03);}
+.reason-header{display:flex;align-items:center;gap:8px;padding:8px 12px;user-select:none;}
+.reason-header.expandable{cursor:pointer;}
+.reason-header.expandable:hover{background:rgba(255,255,255,0.03);}
 .reason-icon{width:20px;height:20px;object-fit:contain;flex-shrink:0;opacity:0.85;}
 .reason-icon-fallback{width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
 .reason-label{font-size:12px;font-weight:500;color:var(--text);flex:1;}
 .reason-years{font-size:11px;color:var(--muted);}
-.reason-toggle{font-size:10px;color:var(--muted2);transition:transform 0.2s;}
+.reason-toggle{font-size:10px;color:var(--muted2);transition:transform 0.2s;margin-left:4px;}
 .reason-header.open .reason-toggle{transform:rotate(90deg);}
-.reason-places{display:none;padding:0 12px 10px 40px;display:flex;flex-direction:column;gap:4px;}
+.reason-places{flex-direction:column;gap:4px;padding:0 12px 10px 40px;}
 .reason-places.hidden{display:none;}
-.place-entry{font-size:12px;color:var(--muted);padding:3px 0;border-top:0.5px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+.reason-places:not(.hidden){display:flex;}
+.place-entry{font-size:12px;color:var(--muted);padding:4px 0;border-top:0.5px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
 .place-entry:first-child{border-top:none;}
-.place-year{font-size:10px;color:var(--muted2);}
+.place-year{font-size:10px;color:var(--muted2);flex-shrink:0;margin-left:8px;}
 
-/* ══ TAB 2 — GLOBE ══ */
+/* TAB 2 */
 .globe-layout{display:flex;flex:1;min-height:0;position:relative;}
 #globe-container{position:absolute;inset:0;background:var(--bg);}
 #globe-el{width:100%;height:100%;}
 
-/* Floating filter bar */
 .gfilter-bar{position:absolute;top:14px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:6px;background:rgba(10,15,30,0.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:0.5px solid var(--border2);border-radius:40px;padding:6px 10px;z-index:50;white-space:nowrap;}
 .gfbar-search{position:relative;display:flex;align-items:center;}
 .gfbar-search input{background:transparent;border:none;outline:none;color:var(--text);font-size:13px;font-family:inherit;width:0;padding:0;transition:width 0.25s ease,padding 0.25s ease;}
@@ -114,7 +107,7 @@ tr.detail-row td{padding:0;border-bottom:0.5px solid var(--border2);}
 .gfbar-select{background:transparent;border:none;outline:none;color:var(--text);font-size:12px;font-family:inherit;cursor:pointer;padding:2px 18px 2px 4px;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5'%3E%3Cpath d='M0 0l4 5 4-5z' fill='%237a8baa'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 2px center;}
 .gfbar-select option{background:#111827;}
 .reason-btns{display:flex;gap:4px;align-items:center;}
-.rbtn{width:26px;height:26px;border-radius:6px;cursor:pointer;border:0.5px solid var(--border2);background:transparent;display:flex;align-items:center;justify-content:center;transition:all 0.15s;padding:0;position:relative;}
+.rbtn{width:26px;height:26px;border-radius:6px;cursor:pointer;border:0.5px solid var(--border2);background:transparent;display:flex;align-items:center;justify-content:center;transition:all 0.15s;padding:0;}
 .rbtn img{width:15px;height:15px;object-fit:contain;opacity:0.5;transition:opacity 0.15s;}
 .rbtn.active{background:var(--accent-dim);border-color:rgba(79,156,249,0.4);}
 .rbtn.active img{opacity:1;}
@@ -122,7 +115,6 @@ tr.detail-row td{padding:0;border-bottom:0.5px solid var(--border2);}
 .rbtn-all{font-size:11px;color:var(--muted);padding:3px 8px;border-radius:20px;width:auto;height:auto;}
 .rbtn-all.active{background:var(--accent-dim);color:var(--accent);border-color:transparent;}
 
-/* City list panel */
 .gcity-panel{position:absolute;top:0;right:0;bottom:0;width:270px;background:rgba(17,24,39,0.94);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-left:0.5px solid var(--border);display:flex;flex-direction:column;z-index:40;transform:translateX(100%);transition:transform 0.25s ease;}
 .gcity-panel.open{transform:translateX(0);}
 .gcity-panel-header{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:0.5px solid var(--border);flex-shrink:0;}
@@ -136,22 +128,19 @@ tr.detail-row td{padding:0;border-bottom:0.5px solid var(--border2);}
 .gcity-item:hover,.gcity-item.gsel{background:var(--accent-dim);}
 .gcity-n{font-size:13px;font-weight:500;color:var(--text);margin-bottom:2px;}
 .gcity-m{font-size:11px;color:var(--muted);}
-.gcity-icons{display:flex;gap:4px;margin-top:5px;flex-wrap:wrap;}
+.gcity-icons{display:flex;gap:4px;margin-top:5px;flex-wrap:wrap;align-items:center;}
 .gcity-icon{width:16px;height:16px;object-fit:contain;opacity:0.7;}
-.gcity-icon-fb{font-size:13px;line-height:1;}
 
-/* Toggle button */
 .glist-toggle{position:absolute;bottom:20px;right:20px;z-index:50;background:rgba(10,15,30,0.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:0.5px solid var(--border2);border-radius:var(--radius-lg);padding:8px 14px;font-size:12px;font-weight:500;color:var(--accent);cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px;transition:background 0.15s;}
 .glist-toggle:hover{background:rgba(79,156,249,0.15);}
 .glist-count{background:var(--accent-dim);border-radius:10px;padding:1px 7px;font-size:11px;color:var(--accent);}
 
-/* Popup */
 #popup{position:absolute;background:var(--panel);border:0.5px solid rgba(79,156,249,0.35);border-radius:var(--radius-lg);padding:14px 16px;max-width:280px;min-width:210px;z-index:100;box-shadow:0 6px 28px rgba(0,0,0,0.6);opacity:0;pointer-events:none;transition:opacity 0.15s;}
 #popup.vis{opacity:1;pointer-events:auto;}
 .popup-city{font-size:14px;font-weight:600;color:var(--text);padding-bottom:8px;margin-bottom:10px;border-bottom:0.5px solid var(--border);}
 .popup-reason{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;}
 .popup-reason-icon{width:18px;height:18px;object-fit:contain;flex-shrink:0;margin-top:1px;opacity:0.85;}
-.popup-reason-icon-fb{font-size:14px;line-height:1;flex-shrink:0;}
+.popup-reason-icon-fallback{font-size:14px;line-height:1.3;flex-shrink:0;}
 .popup-reason-body{flex:1;}
 .popup-reason-label{font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:2px;}
 .popup-reason-years{font-size:12px;color:var(--text);}
@@ -178,7 +167,6 @@ tr.detail-row td{padding:0;border-bottom:0.5px solid var(--border2);}
     <div class="tab" data-tab="globe">&#9679; Globe</div>
   </div>
 
-  <!-- TAB 1: LIST -->
   <div class="tab-panel active" id="panel-list">
     <div class="list-wrap">
       <div class="toolbar">
@@ -209,12 +197,10 @@ tr.detail-row td{padding:0;border-bottom:0.5px solid var(--border2);}
     </div>
   </div>
 
-  <!-- TAB 2: GLOBE -->
   <div class="tab-panel" id="panel-globe">
     <div class="globe-layout">
       <div id="globe-container">
         <div id="globe-el"></div>
-
         <div class="gfilter-bar">
           <div class="gfbar-search" id="gfbar-search">
             <button class="gfbar-icon-btn" id="gfbar-search-btn" title="Search">&#128269;</button>
@@ -227,7 +213,6 @@ tr.detail-row td{padding:0;border-bottom:0.5px solid var(--border2);}
             <button class="rbtn rbtn-all active" data-r="all">All</button>
           </div>
         </div>
-
         <div class="gcity-panel" id="gcity-panel">
           <div class="gcity-panel-header">
             <span class="gcity-panel-title">Cities</span>
@@ -235,11 +220,9 @@ tr.detail-row td{padding:0;border-bottom:0.5px solid var(--border2);}
           </div>
           <div class="gcity-list" id="g-city-list"></div>
         </div>
-
         <button class="glist-toggle" id="glist-toggle">
           &#9776; Cities <span class="glist-count" id="glist-count">0</span>
         </button>
-
         <div id="popup">
           <button class="popup-close" id="popup-close">×</button>
           <div class="popup-city" id="popup-city"></div>
@@ -253,25 +236,14 @@ tr.detail-row td{padding:0;border-bottom:0.5px solid var(--border2);}
 <script>
 'use strict';
 
-// ── Constants ──
-const CITIES_CSV  = 'cities.csv';
-const VISITS_CSV  = 'visits.csv';
+const PLACES_CSV = 'places.csv';
 
 const REASON_ORDER = ['home','school','university','workplace','friends-visiting','business-visiting','tourism','matchday','shopping-visiting','transportation'];
-
 const REASON_LABELS = {
-  'home':              'Home',
-  'school':            'School',
-  'university':        'University',
-  'workplace':         'Workplace',
-  'friends-visiting':  'Friends Visiting',
-  'business-visiting': 'Business Visiting',
-  'tourism':           'Tourism',
-  'matchday':          'Matchday',
-  'shopping-visiting': 'Shopping',
-  'transportation':    'Transportation'
+  'home':'Home','school':'School','university':'University','workplace':'Workplace',
+  'friends-visiting':'Friends Visiting','business-visiting':'Business Visiting',
+  'tourism':'Tourism','matchday':'Matchday','shopping-visiting':'Shopping','transportation':'Transportation'
 };
-
 const REASON_FALLBACK = {
   'home':'🏠','school':'🏫','university':'🎓','workplace':'💼',
   'friends-visiting':'👥','business-visiting':'🤝','tourism':'🗺️',
@@ -279,7 +251,7 @@ const REASON_FALLBACK = {
 };
 
 // ── State ──
-let allCities  = [];   // [{name, country, countryCode, admin, lat, lng, visits:[{reason,year,places:[]}], allYears, allReasons}]
+let allCities = [];
 let sortCol = 'name', sortDir = 1;
 let listSearch = '', listCountry = '', listReason = '', listYear = '';
 let gSearch = '', gReason = 'all', gYear = '';
@@ -289,7 +261,7 @@ let globe = null;
 let globeReady = false;
 let globeInited = false;
 
-// ── Helpers ──
+// ── Icon helper ──
 function iconImg(reason, cls) {
   const img = document.createElement('img');
   img.src = reason + '.png';
@@ -298,12 +270,13 @@ function iconImg(reason, cls) {
   img.onerror = function() {
     const span = document.createElement('span');
     span.textContent = REASON_FALLBACK[reason] || '📍';
-    span.className = (cls || 'reason-icon').replace('reason-icon','reason-icon-fallback');
+    span.className = cls ? cls.replace('-icon','-icon-fallback') : 'reason-icon-fallback';
     this.replaceWith(span);
   };
   return img;
 }
 
+// ── Geo helpers ──
 function greatCircleDist(lat1, lng1, lat2, lng2) {
   const R = Math.PI / 180;
   const dLat = (lat2 - lat1) * R, dLng = (lng2 - lng1) * R;
@@ -317,56 +290,62 @@ function calcDotRadius() {
   return Math.max(0.05, Math.min(0.32, alt * 0.13));
 }
 
-// ── Parse CSVs ──
-function buildCities(cityRows, visitRows) {
-  const cityMap = {};
-  cityRows.forEach(r => {
-    const coords = (r.Coordinates || '').split(',').map(s => parseFloat(s.trim()));
-    cityMap[r.City] = {
-      name: r.City,
-      country: r.Country,
-      countryCode: (r['Country Code'] || '').trim(),
-      admin: r['Administrative Division'] || '',
-      lat: coords[0] || 0,
-      lng: coords[1] || 0,
-      visits: []
-    };
+// ── Parse CSV ──
+// Join key = City name + "|" + Country Code  →  handles duplicate city names
+function buildCities(rows) {
+  const cityMap = {};   // key → city object
+  const keyOrder = [];  // insertion order
+
+  rows.forEach(function(r) {
+    const cityName  = (r.City || '').trim();
+    const code      = (r['Country Code'] || '').trim();
+    const reason    = (r.Reason || '').trim();
+    const year      = (r.Year || '').trim();
+    const places    = (r.Places || '').split('|').map(function(p){ return p.trim(); }).filter(Boolean);
+    if (!cityName || !code) return;
+
+    const key = cityName + '|' + code;
+    if (!cityMap[key]) {
+      const coords = (r.Coordinates || '').split(',').map(function(s){ return parseFloat(s.trim()); });
+      cityMap[key] = {
+        key: key,
+        name: cityName,
+        country: (r.Country || '').trim(),
+        countryCode: code,
+        admin: (r['Administrative Division'] || '').trim(),
+        lat: coords[0] || 0,
+        lng: coords[1] || 0,
+        visits: []
+      };
+      keyOrder.push(key);
+    }
+    if (reason && year) {
+      cityMap[key].visits.push({ reason: reason, year: year, places: places });
+    }
   });
 
-  visitRows.forEach(r => {
-    const city = cityMap[r.City];
-    if (!city) return;
-    const places = (r.Places || '').split('|').map(p => p.trim()).filter(Boolean);
-    city.visits.push({
-      reason: (r.Reason || '').trim(),
-      year:   (r.Year   || '').trim(),
-      places
-    });
-  });
-
-  return Object.values(cityMap).map(c => {
-    const allYears   = [...new Set(c.visits.map(v => v.year))].sort();
-    const allReasons = [...new Set(c.visits.map(v => v.reason))]
-      .sort((a, b) => REASON_ORDER.indexOf(a) - REASON_ORDER.indexOf(b));
-    return Object.assign({}, c, { allYears, allReasons });
+  return keyOrder.map(function(key) {
+    var c = cityMap[key];
+    c.allYears   = Array.from(new Set(c.visits.map(function(v){ return v.year; }))).sort();
+    c.allReasons = Array.from(new Set(c.visits.map(function(v){ return v.reason; })))
+      .sort(function(a,b){ return REASON_ORDER.indexOf(a) - REASON_ORDER.indexOf(b); });
+    return c;
   });
 }
 
 // ── Stats ──
 function updateStats() {
-  document.getElementById('stat-c').textContent  = new Set(allCities.map(c => c.countryCode)).size;
+  document.getElementById('stat-c').textContent  = new Set(allCities.map(function(c){ return c.countryCode; })).size;
   document.getElementById('stat-ci').textContent = allCities.length;
-  document.getElementById('stat-p').textContent  = allCities.reduce((a, c) => a + c.visits.length, 0);
+  document.getElementById('stat-p').textContent  = allCities.reduce(function(a,c){ return a + c.visits.length; }, 0);
 }
 
-// ══════════════════════════
-// TAB 1 — LIST
-// ══════════════════════════
+// ══ TAB 1 ══
 function listFiltered() {
-  const q = listSearch.toLowerCase();
-  return allCities.filter(c => {
+  var q = listSearch.toLowerCase();
+  return allCities.filter(function(c) {
     if (q && !c.name.toLowerCase().includes(q) && !c.country.toLowerCase().includes(q) &&
-        !c.visits.some(v => v.places.some(p => p.toLowerCase().includes(q)))) return false;
+        !c.visits.some(function(v){ return v.places.some(function(p){ return p.toLowerCase().includes(q); }); })) return false;
     if (listCountry && c.countryCode !== listCountry) return false;
     if (listReason  && !c.allReasons.includes(listReason)) return false;
     if (listYear    && !c.allYears.includes(listYear)) return false;
@@ -375,38 +354,34 @@ function listFiltered() {
 }
 
 function sortedCities(arr) {
-  return arr.slice().sort((a, b) => {
-    let av, bv;
-    if (sortCol === 'years')  { av = a.allYears.length;  bv = b.allYears.length; }
-    else { av = (a[sortCol] || '').toLowerCase(); bv = (b[sortCol] || '').toLowerCase(); }
+  return arr.slice().sort(function(a,b) {
+    var av, bv;
+    if (sortCol === 'years') { av = a.allYears.length; bv = b.allYears.length; }
+    else { av = (a[sortCol]||'').toLowerCase(); bv = (b[sortCol]||'').toLowerCase(); }
     return av < bv ? -sortDir : av > bv ? sortDir : 0;
   });
 }
 
 function renderTable() {
-  const data = sortedCities(listFiltered());
+  var data = sortedCities(listFiltered());
   document.getElementById('list-count').textContent = data.length + ' cities';
-  const tbody = document.getElementById('city-tbody');
+  var tbody = document.getElementById('city-tbody');
   tbody.innerHTML = '';
 
-  data.forEach(city => {
-    const isExp = expandedCity === city.name;
-
-    // Filter visits
-    const visVisits = city.visits.filter(v => {
+  data.forEach(function(city) {
+    var isExp = expandedCity === city.key;
+    var visVisits = city.visits.filter(function(v) {
       if (listReason && v.reason !== listReason) return false;
       if (listYear   && v.year   !== listYear)   return false;
       return true;
     });
-    const visReasons = [...new Set(visVisits.map(v => v.reason))]
-      .sort((a, b) => REASON_ORDER.indexOf(a) - REASON_ORDER.indexOf(b));
-    const visYears = [...new Set(visVisits.map(v => v.year))].sort();
-    const yearSpan = visYears.length
-      ? visYears[0] + (visYears.length > 1 ? '–' + visYears[visYears.length-1] : '')
-      : '—';
+    var visReasons = Array.from(new Set(visVisits.map(function(v){ return v.reason; })))
+      .sort(function(a,b){ return REASON_ORDER.indexOf(a) - REASON_ORDER.indexOf(b); });
+    var visYears = Array.from(new Set(visVisits.map(function(v){ return v.year; }))).sort();
+    var yearSpan = visYears.length ? visYears[0] + (visYears.length > 1 ? '–' + visYears[visYears.length-1] : '') : '—';
 
     // City row
-    const tr = document.createElement('tr');
+    var tr = document.createElement('tr');
     tr.className = 'city-row' + (isExp ? ' expanded' : '');
     tr.innerHTML =
       '<td><span class="expand-icon">&#9658;</span></td>' +
@@ -416,88 +391,89 @@ function renderTable() {
       '<td class="cat-pills-cell"></td>' +
       '<td class="years-cell">' + yearSpan + '</td>';
 
-    // Category pills
-    const pillCell = tr.querySelector('.cat-pills-cell');
-    const pillRow = document.createElement('div');
+    var pillCell = tr.querySelector('.cat-pills-cell');
+    var pillRow = document.createElement('div');
     pillRow.className = 'cat-pills';
-    visReasons.forEach(r => {
-      const pill = document.createElement('div');
+    visReasons.forEach(function(r) {
+      var pill = document.createElement('div');
       pill.className = 'cat-pill';
       pill.appendChild(iconImg(r, 'cat-pill-img'));
-      const lbl = document.createElement('span');
+      var lbl = document.createElement('span');
       lbl.textContent = REASON_LABELS[r] || r;
       pill.appendChild(lbl);
       pillRow.appendChild(pill);
     });
     pillCell.appendChild(pillRow);
 
-    tr.addEventListener('click', () => {
-      expandedCity = (expandedCity === city.name) ? null : city.name;
+    tr.addEventListener('click', function() {
+      expandedCity = (expandedCity === city.key) ? null : city.key;
       renderTable();
     });
     tbody.appendChild(tr);
 
     // Detail row
-    const dr = document.createElement('tr');
+    var dr  = document.createElement('tr');
     dr.className = 'detail-row';
-    const dtd = document.createElement('td');
+    var dtd = document.createElement('td');
     dtd.colSpan = 6;
-    const inner = document.createElement('div');
+    var inner = document.createElement('div');
     inner.className = 'detail-inner' + (isExp ? ' open' : '');
-    const content = document.createElement('div');
+    var content = document.createElement('div');
     content.className = 'detail-content';
 
-    // Group visits by reason, then sort visits within each reason by year
-    visReasons.forEach(reason => {
-      const reasonVisits = visVisits.filter(v => v.reason === reason)
-        .sort((a, b) => a.year.localeCompare(b.year));
+    visReasons.forEach(function(reason) {
+      var rv = visVisits.filter(function(v){ return v.reason === reason; })
+        .sort(function(a,b){ return a.year.localeCompare(b.year); });
+      var hasPlaces = rv.some(function(v){ return v.places.length > 0; });
+      var years = rv.map(function(v){ return v.year; }).join(', ');
 
-      const block = document.createElement('div');
+      var block = document.createElement('div');
       block.className = 'reason-block';
 
-      // Collect all year entries for the header summary
-      const years = reasonVisits.map(v => v.year).join(', ');
-      const hasPlaces = reasonVisits.some(v => v.places.length > 0);
-
-      const hdr = document.createElement('div');
-      hdr.className = 'reason-header' + (hasPlaces ? '' : '');
-      hdr.innerHTML =
-        '<span class="reason-years">' + years + '</span>' +
-        (hasPlaces ? '<span class="reason-toggle">&#9658;</span>' : '');
-      hdr.insertBefore(iconImg(reason, 'reason-icon'), hdr.firstChild);
-      const lbl = document.createElement('span');
+      var hdr = document.createElement('div');
+      hdr.className = 'reason-header' + (hasPlaces ? ' expandable' : '');
+      hdr.appendChild(iconImg(reason, 'reason-icon'));
+      var lbl = document.createElement('span');
       lbl.className = 'reason-label';
       lbl.textContent = REASON_LABELS[reason] || reason;
-      hdr.insertBefore(lbl, hdr.querySelector('.reason-years'));
+      hdr.appendChild(lbl);
+      var yrs = document.createElement('span');
+      yrs.className = 'reason-years';
+      yrs.textContent = years;
+      hdr.appendChild(yrs);
+      if (hasPlaces) {
+        var tog = document.createElement('span');
+        tog.className = 'reason-toggle';
+        tog.textContent = '▶';
+        hdr.appendChild(tog);
+      }
       block.appendChild(hdr);
 
       if (hasPlaces) {
-        const placesDiv = document.createElement('div');
+        var placesDiv = document.createElement('div');
         placesDiv.className = 'reason-places hidden';
-        reasonVisits.forEach(v => {
-          v.places.forEach(p => {
-            const entry = document.createElement('div');
+        rv.forEach(function(v) {
+          v.places.forEach(function(p) {
+            var entry = document.createElement('div');
             entry.className = 'place-entry';
-            const nameSpan = document.createElement('span');
-            nameSpan.textContent = p;
-            const yearSpanEl = document.createElement('span');
-            yearSpanEl.className = 'place-year';
-            yearSpanEl.textContent = v.year;
-            entry.appendChild(nameSpan);
-            entry.appendChild(yearSpanEl);
+            var nm = document.createElement('span');
+            nm.textContent = p;
+            var yr = document.createElement('span');
+            yr.className = 'place-year';
+            yr.textContent = v.year;
+            entry.appendChild(nm);
+            entry.appendChild(yr);
             placesDiv.appendChild(entry);
           });
         });
         block.appendChild(placesDiv);
-
-        hdr.addEventListener('click', (e) => {
+        hdr.addEventListener('click', function(e) {
           e.stopPropagation();
-          const isOpen = !placesDiv.classList.contains('hidden');
-          placesDiv.classList.toggle('hidden', isOpen);
-          hdr.classList.toggle('open', !isOpen);
+          var opening = placesDiv.classList.contains('hidden');
+          placesDiv.classList.toggle('hidden', !opening);
+          hdr.classList.toggle('open', opening);
         });
       }
-
       content.appendChild(block);
     });
 
@@ -507,54 +483,49 @@ function renderTable() {
     tbody.appendChild(dr);
   });
 
-  document.querySelectorAll('thead th.sortable').forEach(th => {
+  document.querySelectorAll('thead th.sortable').forEach(function(th) {
     th.classList.remove('sort-asc','sort-desc');
     if (th.dataset.col === sortCol) th.classList.add(sortDir === 1 ? 'sort-asc' : 'sort-desc');
   });
 }
 
 function populateFilters() {
-  const countrySelect = document.getElementById('list-country');
-  const listReasonSelect = document.getElementById('list-reason');
-  const listYearSelect = document.getElementById('list-year');
-  const globeYearSelect = document.getElementById('g-year');
+  var countrySelect    = document.getElementById('list-country');
+  var listReasonSelect = document.getElementById('list-reason');
+  var listYearSelect   = document.getElementById('list-year');
+  var globeYearSelect  = document.getElementById('g-year');
 
-  // Countries
-  const countryMap = new Map();
-  allCities.forEach(c => { if (!countryMap.has(c.countryCode)) countryMap.set(c.countryCode, c.country); });
-  [...countryMap.entries()].sort((a,b) => a[1].localeCompare(b[1])).forEach(([code, name]) => {
-    const o = document.createElement('option'); o.value = code; o.textContent = name;
+  var countryMap = new Map();
+  allCities.forEach(function(c) { if (!countryMap.has(c.countryCode)) countryMap.set(c.countryCode, c.country); });
+  Array.from(countryMap.entries()).sort(function(a,b){ return a[1].localeCompare(b[1]); }).forEach(function(e) {
+    var o = document.createElement('option'); o.value = e[0]; o.textContent = e[1];
     countrySelect.appendChild(o);
   });
 
-  // Reasons (in preferred order)
-  const usedReasons = [...new Set(allCities.flatMap(c => c.allReasons))]
-    .sort((a,b) => REASON_ORDER.indexOf(a) - REASON_ORDER.indexOf(b));
-  usedReasons.forEach(r => {
-    const o = document.createElement('option'); o.value = r; o.textContent = REASON_LABELS[r] || r;
+  var usedReasons = Array.from(new Set(allCities.flatMap(function(c){ return c.allReasons; })))
+    .sort(function(a,b){ return REASON_ORDER.indexOf(a) - REASON_ORDER.indexOf(b); });
+  usedReasons.forEach(function(r) {
+    var o = document.createElement('option'); o.value = r; o.textContent = REASON_LABELS[r] || r;
     listReasonSelect.appendChild(o);
   });
 
-  // Years
-  const years = [...new Set(allCities.flatMap(c => c.allYears))].sort();
-  years.forEach(y => {
-    const o1 = document.createElement('option'); o1.value = y; o1.textContent = y;
-    listYearSelect.appendChild(o1);
-    const o2 = document.createElement('option'); o2.value = y; o2.textContent = y;
-    globeYearSelect.appendChild(o2);
+  var years = Array.from(new Set(allCities.flatMap(function(c){ return c.allYears; }))).sort();
+  years.forEach(function(y) {
+    var o1 = document.createElement('option'); o1.value = y; o1.textContent = y; listYearSelect.appendChild(o1);
+    var o2 = document.createElement('option'); o2.value = y; o2.textContent = y; globeYearSelect.appendChild(o2);
   });
 
   // Globe reason filter buttons
-  const btnContainer = document.getElementById('reason-btns');
-  usedReasons.forEach(r => {
-    const btn = document.createElement('button');
+  var btnContainer = document.getElementById('reason-btns');
+  usedReasons.forEach(function(r) {
+    var btn = document.createElement('button');
     btn.className = 'rbtn';
     btn.dataset.r = r;
     btn.title = REASON_LABELS[r] || r;
     btn.appendChild(iconImg(r, 'rbtn-img'));
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', function() {
       gReason = r;
-      document.querySelectorAll('.rbtn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.rbtn').forEach(function(b){ b.classList.remove('active'); });
       btn.classList.add('active');
       applyGFilters();
     });
@@ -562,12 +533,10 @@ function populateFilters() {
   });
 }
 
-// ══════════════════════════
-// TAB 2 — GLOBE
-// ══════════════════════════
+// ══ TAB 2 ══
 function gFiltered() {
-  const q = gSearch.toLowerCase();
-  return allCities.filter(c => {
+  var q = gSearch.toLowerCase();
+  return allCities.filter(function(c) {
     if (q && !c.name.toLowerCase().includes(q)) return false;
     if (gReason !== 'all' && !c.allReasons.includes(gReason)) return false;
     if (gYear && !c.allYears.includes(gYear)) return false;
@@ -575,9 +544,8 @@ function gFiltered() {
   });
 }
 
-// Visits for a city matching current globe filters
 function gVisits(city) {
-  return city.visits.filter(v => {
+  return city.visits.filter(function(v) {
     if (gReason !== 'all' && v.reason !== gReason) return false;
     if (gYear && v.year !== gYear) return false;
     return true;
@@ -585,35 +553,24 @@ function gVisits(city) {
 }
 
 function renderGCityList() {
-  const el = document.getElementById('g-city-list');
+  var el = document.getElementById('g-city-list');
   el.innerHTML = '';
-  let count = 0;
-  gFiltered().forEach(c => {
-    const vs = gVisits(c);
+  var count = 0;
+  gFiltered().forEach(function(c) {
+    var vs = gVisits(c);
     if (!vs.length) return;
     count++;
-    const d = document.createElement('div');
-    d.className = 'gcity-item' + (gSelCity === c.name ? ' gsel' : '');
-
-    const nameDiv = document.createElement('div');
-    nameDiv.className = 'gcity-n';
-    nameDiv.textContent = c.name;
-    const metaDiv = document.createElement('div');
-    metaDiv.className = 'gcity-m';
-    metaDiv.textContent = c.country;
-
-    // Reason icons for this city
-    const iconsDiv = document.createElement('div');
-    iconsDiv.className = 'gcity-icons';
-    const visReasons = [...new Set(vs.map(v => v.reason))]
-      .sort((a,b) => REASON_ORDER.indexOf(a) - REASON_ORDER.indexOf(b));
-    visReasons.forEach(r => iconsDiv.appendChild(iconImg(r, 'gcity-icon')));
-
-    d.appendChild(nameDiv);
-    d.appendChild(metaDiv);
-    d.appendChild(iconsDiv);
-    d.addEventListener('click', () => {
-      gSelCity = c.name;
+    var d = document.createElement('div');
+    d.className = 'gcity-item' + (gSelCity === c.key ? ' gsel' : '');
+    var nameDiv = document.createElement('div'); nameDiv.className = 'gcity-n'; nameDiv.textContent = c.name;
+    var metaDiv = document.createElement('div'); metaDiv.className = 'gcity-m'; metaDiv.textContent = c.country;
+    var iconsDiv = document.createElement('div'); iconsDiv.className = 'gcity-icons';
+    var visReasons = Array.from(new Set(vs.map(function(v){ return v.reason; })))
+      .sort(function(a,b){ return REASON_ORDER.indexOf(a) - REASON_ORDER.indexOf(b); });
+    visReasons.forEach(function(r){ iconsDiv.appendChild(iconImg(r, 'gcity-icon')); });
+    d.appendChild(nameDiv); d.appendChild(metaDiv); d.appendChild(iconsDiv);
+    d.addEventListener('click', function() {
+      gSelCity = c.key;
       showPopup(c, null, null);
       if (globe) globe.pointOfView({ lat: c.lat, lng: c.lng, altitude: 1.4 }, 900);
     });
@@ -623,41 +580,34 @@ function renderGCityList() {
 }
 
 function showPopup(city, px, py) {
-  gSelCity = city.name;
+  gSelCity = city.key;
   document.getElementById('popup-city').textContent = city.name + ' · ' + city.country;
 
-  const vs = gVisits(city);
-  const reasons = [...new Set(vs.map(v => v.reason))]
-    .sort((a,b) => REASON_ORDER.indexOf(a) - REASON_ORDER.indexOf(b));
+  var vs = gVisits(city);
+  var reasons = Array.from(new Set(vs.map(function(v){ return v.reason; })))
+    .sort(function(a,b){ return REASON_ORDER.indexOf(a) - REASON_ORDER.indexOf(b); });
 
-  const body = document.getElementById('popup-body');
+  var body = document.getElementById('popup-body');
   body.innerHTML = '';
-  reasons.forEach(r => {
-    const rv = vs.filter(v => v.reason === r).sort((a,b) => a.year.localeCompare(b.year));
-    const years = [...new Set(rv.map(v => v.year))].join(', ');
-    const row = document.createElement('div');
-    row.className = 'popup-reason';
+  reasons.forEach(function(r) {
+    var rv = vs.filter(function(v){ return v.reason === r; }).sort(function(a,b){ return a.year.localeCompare(b.year); });
+    var years = Array.from(new Set(rv.map(function(v){ return v.year; }))).join(', ');
+    var row = document.createElement('div'); row.className = 'popup-reason';
     row.appendChild(iconImg(r, 'popup-reason-icon'));
-    const rbody = document.createElement('div');
-    rbody.className = 'popup-reason-body';
-    const rlabel = document.createElement('div');
-    rlabel.className = 'popup-reason-label';
-    rlabel.textContent = REASON_LABELS[r] || r;
-    const ryears = document.createElement('div');
-    ryears.className = 'popup-reason-years';
-    ryears.textContent = years;
-    rbody.appendChild(rlabel);
-    rbody.appendChild(ryears);
+    var rbody = document.createElement('div'); rbody.className = 'popup-reason-body';
+    var rlabel = document.createElement('div'); rlabel.className = 'popup-reason-label'; rlabel.textContent = REASON_LABELS[r] || r;
+    var ryears = document.createElement('div'); ryears.className = 'popup-reason-years'; ryears.textContent = years;
+    rbody.appendChild(rlabel); rbody.appendChild(ryears);
     row.appendChild(rbody);
     body.appendChild(row);
   });
 
-  const popup = document.getElementById('popup');
+  var popup = document.getElementById('popup');
   if (px !== null && px !== undefined) {
-    const rect = document.getElementById('globe-container').getBoundingClientRect();
-    let x = px - rect.left, y = py - rect.top;
-    if (x + 300 > rect.width) x -= 310;
-    if (y + 250 > rect.height) y -= 260;
+    var rect = document.getElementById('globe-container').getBoundingClientRect();
+    var x = px - rect.left, y = py - rect.top;
+    if (x + 300 > rect.width)  x -= 310;
+    if (y + 260 > rect.height) y -= 270;
     popup.style.left = Math.max(8, x) + 'px';
     popup.style.top  = Math.max(8, y) + 'px';
   } else {
@@ -678,32 +628,26 @@ function hidePopup() {
 
 function updateGlobe() {
   if (!globeReady) return;
-  const fc = gFiltered();
-  const r = calcDotRadius();
-  globe.pointsData(fc.map(c => ({
-    lat: c.lat, lng: c.lng, city: c,
-    size: r,
-    color: gSelCity === c.name ? '#ffffff' : '#4f9cf9'
-  })));
-
+  var fc = gFiltered();
+  var r = calcDotRadius();
+  globe.pointsData(fc.map(function(c) {
+    return { lat: c.lat, lng: c.lng, city: c, size: r, color: gSelCity === c.key ? '#ffffff' : '#4f9cf9' };
+  }));
   if (globe._countriesData) {
-    const visited = new Set(fc.map(c => c.countryCode));
+    var visited = new Set(fc.map(function(c){ return c.countryCode; }));
     globe.polygonsData(globe._countriesData)
-      .polygonCapColor(f => visited.has(f.properties._iso3||'') ? 'rgba(79,156,249,0.22)' : 'rgba(255,255,255,0.03)')
-      .polygonSideColor(() => 'rgba(255,255,255,0.01)')
-      .polygonStrokeColor(() => 'rgba(255,255,255,0.07)')
-      .polygonAltitude(f => visited.has(f.properties._iso3||'') ? 0.012 : 0.005);
+      .polygonCapColor(function(f){ return visited.has(f.properties._iso3||'') ? 'rgba(79,156,249,0.22)' : 'rgba(255,255,255,0.03)'; })
+      .polygonSideColor(function(){ return 'rgba(255,255,255,0.01)'; })
+      .polygonStrokeColor(function(){ return 'rgba(255,255,255,0.07)'; })
+      .polygonAltitude(function(f){ return visited.has(f.properties._iso3||'') ? 0.012 : 0.005; });
   }
 }
 
-function applyGFilters() {
-  renderGCityList();
-  updateGlobe();
-}
+function applyGFilters() { renderGCityList(); updateGlobe(); }
 
 async function initGlobe() {
-  const el = document.getElementById('globe-el');
-  const container = document.getElementById('globe-container');
+  var el = document.getElementById('globe-el');
+  var container = document.getElementById('globe-container');
 
   globe = Globe()(el)
     .backgroundColor('rgba(0,0,0,0)')
@@ -718,61 +662,58 @@ async function initGlobe() {
     .pointRadius('size')
     .pointsMerge(false)
     .pointsTransitionDuration(0)
-    .onPointHover(pt => { el.style.cursor = pt ? 'pointer' : 'default'; });
+    .onPointHover(function(pt){ el.style.cursor = pt ? 'pointer' : 'default'; });
 
   globe.controls().autoRotate = true;
   globe.controls().autoRotateSpeed = 0.5;
   globe.controls().enableZoom = true;
 
-  // Custom click: mousedown/up to distinguish click from drag
-  let mouseDownPos = null;
-  el.addEventListener('mousedown', ev => {
+  var mouseDownPos = null;
+  el.addEventListener('mousedown', function(ev) {
     globe.controls().autoRotate = false;
     mouseDownPos = { x: ev.clientX, y: ev.clientY };
   });
-  el.addEventListener('mouseup', ev => {
+  el.addEventListener('mouseup', function(ev) {
     if (!mouseDownPos) return;
-    const moved = Math.hypot(ev.clientX - mouseDownPos.x, ev.clientY - mouseDownPos.y);
+    var moved = Math.hypot(ev.clientX - mouseDownPos.x, ev.clientY - mouseDownPos.y);
     mouseDownPos = null;
     if (moved > 5 || !globeReady) return;
-    const rect = el.getBoundingClientRect();
-    const hit = globe.toGlobeCoords(ev.clientX - rect.left, ev.clientY - rect.top);
+    var rect = el.getBoundingClientRect();
+    var hit = globe.toGlobeCoords(ev.clientX - rect.left, ev.clientY - rect.top);
     if (!hit) return;
-    const threshold = Math.max(0.8, Math.min(15, globe.pointOfView().altitude * 4));
-    let closest = null, minDist = threshold;
-    gFiltered().forEach(c => {
-      const d = greatCircleDist(hit.lat, hit.lng, c.lat, c.lng);
+    var threshold = Math.max(0.8, Math.min(15, globe.pointOfView().altitude * 4));
+    var closest = null, minDist = threshold;
+    gFiltered().forEach(function(c) {
+      var d = greatCircleDist(hit.lat, hit.lng, c.lat, c.lng);
       if (d < minDist) { minDist = d; closest = c; }
     });
     if (closest) showPopup(closest, ev.clientX, ev.clientY);
   });
 
-  // Rescale dots on zoom
-  let zoomTimer = null;
-  globe.controls().addEventListener('change', () => {
+  var zoomTimer = null;
+  globe.controls().addEventListener('change', function() {
     if (!globeReady) return;
     clearTimeout(zoomTimer);
     zoomTimer = setTimeout(updateGlobe, 80);
   });
 
-  const ro = new ResizeObserver(() => { globe.width(container.clientWidth).height(container.clientHeight); });
+  var ro = new ResizeObserver(function() { globe.width(container.clientWidth).height(container.clientHeight); });
   ro.observe(container);
   globe.width(container.clientWidth).height(container.clientHeight);
 
-  // Choropleth
   try {
-    const res = await fetch('https://cdn.jsdelivr.net/gh/nvkelso/natural-earth-vector@master/geojson/ne_110m_admin_0_map_units.geojson');
-    const gj = await res.json();
-    gj.features.forEach(f => {
-      const p = f.properties;
+    var res = await fetch('https://cdn.jsdelivr.net/gh/nvkelso/natural-earth-vector@master/geojson/ne_110m_admin_0_map_units.geojson');
+    var gj = await res.json();
+    gj.features.forEach(function(f) {
+      var p = f.properties;
       f.properties._iso3 = (p.ISO_A3 && p.ISO_A3 !== '-99') ? p.ISO_A3
         : (p.ISO_A3_EH && p.ISO_A3_EH !== '-99') ? p.ISO_A3_EH : (p.ADM0_A3 || '');
     });
     globe._countriesData = gj.features;
     globe.polygonsData(gj.features)
-      .polygonCapColor(() => 'rgba(255,255,255,0.03)')
-      .polygonSideColor(() => 'rgba(255,255,255,0.01)')
-      .polygonStrokeColor(() => 'rgba(255,255,255,0.07)')
+      .polygonCapColor(function(){ return 'rgba(255,255,255,0.03)'; })
+      .polygonSideColor(function(){ return 'rgba(255,255,255,0.01)'; })
+      .polygonStrokeColor(function(){ return 'rgba(255,255,255,0.07)'; })
       .polygonAltitude(0.005);
   } catch(e) { console.warn('Choropleth unavailable', e); }
 
@@ -782,17 +723,17 @@ async function initGlobe() {
 }
 
 // ── Tabs ──
-document.querySelectorAll('.tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+document.querySelectorAll('.tab').forEach(function(tab) {
+  tab.addEventListener('click', function() {
+    document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
+    document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
     tab.classList.add('active');
     document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
     if (tab.dataset.tab === 'globe') {
       if (!globeInited) { globeInited = true; setTimeout(initGlobe, 50); }
       else if (globeReady) {
-        setTimeout(() => {
-          const c = document.getElementById('globe-container');
+        setTimeout(function() {
+          var c = document.getElementById('globe-container');
           globe.width(c.clientWidth).height(c.clientHeight);
           renderGCityList();
         }, 50);
@@ -803,59 +744,56 @@ document.querySelectorAll('.tab').forEach(tab => {
 
 // ── Boot ──
 async function init() {
-  let cityText, visitText;
+  var csvText;
   try {
-    [cityText, visitText] = await Promise.all([
-      fetch(CITIES_CSV).then(r => { if(!r.ok) throw new Error(); return r.text(); }),
-      fetch(VISITS_CSV).then(r => { if(!r.ok) throw new Error(); return r.text(); })
-    ]);
+    var res = await fetch(PLACES_CSV);
+    if (!res.ok) throw new Error('fetch failed');
+    csvText = await res.text();
   } catch(e) {
     document.getElementById('loading').innerHTML =
-      '<div class="loading-txt" style="max-width:360px;text-align:center;">Could not load <code>cities.csv</code> or <code>visits.csv</code>. Make sure both files are in the same folder as <code>index.html</code> and you are serving via http.</div>';
+      '<div class="loading-txt" style="max-width:360px;text-align:center;">Could not load <code>places.csv</code>. Make sure it is in the same folder as <code>index.html</code> and you are serving via http (not file://).</div>';
     return;
   }
 
-  const cityRows  = Papa.parse(cityText,  { header:true, skipEmptyLines:true }).data;
-  const visitRows = Papa.parse(visitText, { header:true, skipEmptyLines:true }).data;
-  allCities = buildCities(cityRows, visitRows);
+  var rows = Papa.parse(csvText, { header: true, skipEmptyLines: true }).data;
+  allCities = buildCities(rows);
 
   populateFilters();
   updateStats();
   renderTable();
   renderGCityList();
 
-  // List controls
-  document.getElementById('list-search').addEventListener('input', e => { listSearch = e.target.value; expandedCity = null; renderTable(); });
-  document.getElementById('list-country').addEventListener('change', e => { listCountry = e.target.value; expandedCity = null; renderTable(); });
-  document.getElementById('list-reason').addEventListener('change', e => { listReason = e.target.value; expandedCity = null; renderTable(); });
-  document.getElementById('list-year').addEventListener('change', e => { listYear = e.target.value; expandedCity = null; renderTable(); });
-  document.querySelectorAll('thead th.sortable').forEach(th => {
-    th.addEventListener('click', () => {
-      sortCol = th.dataset.col === sortCol && sortDir === 1 ? (sortDir = -1, sortCol) : (sortDir = 1, th.dataset.col);
+  document.getElementById('list-search').addEventListener('input', function(e){ listSearch = e.target.value; expandedCity = null; renderTable(); });
+  document.getElementById('list-country').addEventListener('change', function(e){ listCountry = e.target.value; expandedCity = null; renderTable(); });
+  document.getElementById('list-reason').addEventListener('change', function(e){ listReason = e.target.value; expandedCity = null; renderTable(); });
+  document.getElementById('list-year').addEventListener('change', function(e){ listYear = e.target.value; expandedCity = null; renderTable(); });
+  document.querySelectorAll('thead th.sortable').forEach(function(th) {
+    th.addEventListener('click', function() {
+      if (sortCol === th.dataset.col) { sortDir *= -1; }
+      else { sortCol = th.dataset.col; sortDir = 1; }
       expandedCity = null; renderTable();
     });
   });
 
-  // Globe controls
-  const gfbarSearch = document.getElementById('gfbar-search');
-  document.getElementById('gfbar-search-btn').addEventListener('click', () => {
+  var gfbarSearch = document.getElementById('gfbar-search');
+  document.getElementById('gfbar-search-btn').addEventListener('click', function() {
     gfbarSearch.classList.toggle('open');
     if (gfbarSearch.classList.contains('open')) document.getElementById('g-search').focus();
     else { gSearch = ''; document.getElementById('g-search').value = ''; applyGFilters(); }
   });
-  document.getElementById('g-search').addEventListener('input', e => { gSearch = e.target.value; applyGFilters(); });
-  document.getElementById('g-search').addEventListener('keydown', e => {
+  document.getElementById('g-search').addEventListener('input', function(e){ gSearch = e.target.value; applyGFilters(); });
+  document.getElementById('g-search').addEventListener('keydown', function(e){
     if (e.key === 'Escape') { gfbarSearch.classList.remove('open'); gSearch = ''; e.target.value = ''; applyGFilters(); }
   });
-  document.getElementById('g-year').addEventListener('change', e => { gYear = e.target.value; applyGFilters(); });
-  document.querySelector('.rbtn-all').addEventListener('click', () => {
+  document.getElementById('g-year').addEventListener('change', function(e){ gYear = e.target.value; applyGFilters(); });
+  document.querySelector('.rbtn-all').addEventListener('click', function() {
     gReason = 'all';
-    document.querySelectorAll('.rbtn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.rbtn').forEach(function(b){ b.classList.remove('active'); });
     document.querySelector('.rbtn-all').classList.add('active');
     applyGFilters();
   });
-  document.getElementById('glist-toggle').addEventListener('click', () => document.getElementById('gcity-panel').classList.toggle('open'));
-  document.getElementById('gcity-panel-close').addEventListener('click', () => document.getElementById('gcity-panel').classList.remove('open'));
+  document.getElementById('glist-toggle').addEventListener('click', function(){ document.getElementById('gcity-panel').classList.toggle('open'); });
+  document.getElementById('gcity-panel-close').addEventListener('click', function(){ document.getElementById('gcity-panel').classList.remove('open'); });
   document.getElementById('popup-close').addEventListener('click', hidePopup);
 
   document.getElementById('loading').style.display = 'none';
