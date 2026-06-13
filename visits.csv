@@ -1,0 +1,37 @@
+City,Reason,Year,Places
+Beijing / 北京,home,2000,
+Beijing / 北京,home,2001,
+Beijing / 北京,home,2002,
+Beijing / 北京,tourism,2011,Tiananmen Square / 天安门广场|Summer Palace / 颐和园
+Beijing / 北京,tourism,2015,Tiananmen Square / 天安门广场
+Beijing / 北京,transportation,2006,Beijingxi Railway Station / 北京西站
+Beijing / 北京,transportation,2009,Beijingxi Railway Station / 北京西站
+Shanghai / 上海,tourism,2010,The Bund / 外滩
+Shanghai / 上海,tourism,2014,The Bund / 外滩|Yu Garden / 豫园
+Shanghai / 上海,transportation,2010,Pudong Airport / 浦东国际机场
+Oxford,university,2018,Balliol College
+Oxford,university,2019,Balliol College
+Oxford,university,2020,Balliol College
+Oxford,university,2021,Balliol College
+Oxford,university,2022,Balliol College
+Oxford,transportation,2018,Oxford Train Station
+London,tourism,2018,British Museum|Tower of London
+London,tourism,2020,British Museum
+London,transportation,2018,Heathrow Airport
+London,transportation,2020,Heathrow Airport
+London,transportation,2022,Heathrow Airport
+London,matchday,2019,Emirates Stadium
+Tokyo / 東京,tourism,2017,Senso-ji Temple / 浅草寺|Shinjuku
+Tokyo / 東京,transportation,2017,Haneda Airport / 羽田空港
+Seattle,workplace,2023,Fred Hutchinson Cancer Center
+Seattle,workplace,2024,Fred Hutchinson Cancer Center
+Seattle,workplace,2025,Fred Hutchinson Cancer Center
+Seattle,tourism,2023,Pike Place Market
+Seattle,tourism,2024,Pike Place Market|Space Needle
+Paris,tourism,2016,Eiffel Tower|Louvre Museum
+Paris,transportation,2016,Charles de Gaulle Airport
+Sacramento,tourism,2024,Old Sacramento|State Capitol
+Hong Kong / 香港,home,2003,
+Hong Kong / 香港,home,2004,
+Hong Kong / 香港,tourism,2015,Victoria Peak / 太平山頂|Temple Street / 廟街
+Hong Kong / 香港,transportation,2015,Hong Kong International Airport / 香港國際機場
