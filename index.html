@@ -238,16 +238,16 @@ tr.detail-row td{padding:0;border-bottom:0.5px solid var(--border2);}
 
 const PLACES_CSV = 'places.csv';
 
-const REASON_ORDER = ['home','school','university','workplace','friends-visiting','business-visiting','tourism','matchday','shopping-visiting','transportation'];
+const REASON_ORDER = ['home','school','university','workplace','personal','friends','business','tourism','matchday','shopping','airport'];
 const REASON_LABELS = {
   'home':'Home','school':'School','university':'University','workplace':'Workplace',
-  'friends-visiting':'Friends Visiting','business-visiting':'Business Visiting',
-  'tourism':'Tourism','matchday':'Matchday','shopping-visiting':'Shopping','transportation':'Transportation'
+  'personal':'Personal','friends':'Friends','business':'Business',
+  'tourism':'Tourism','matchday':'Matchday','shopping':'Shopping','airport':'Airport'
 };
 const REASON_FALLBACK = {
   'home':'🏠','school':'🏫','university':'🎓','workplace':'💼',
-  'friends-visiting':'👥','business-visiting':'🤝','tourism':'🗺️',
-  'matchday':'⚽','shopping-visiting':'🛍️','transportation':'✈️'
+  'personal':'🧍','friends':'👥','business':'🤝','tourism':'🗺️',
+  'matchday':'⚽','shopping':'🛍️','airport':'✈️'
 };
 
 // ── State ──
