@@ -1,37 +1,55 @@
 City,Coordinates,Administrative Division,Country,Country Code,Reason,Year,Places
-Beijing / 北京,"39.9067,116.3975",Beijing / 北京市,China / 中国,CHN,home,2000,
-Beijing / 北京,"39.9067,116.3975",Beijing / 北京市,China / 中国,CHN,home,2001,
-Beijing / 北京,"39.9067,116.3975",Beijing / 北京市,China / 中国,CHN,home,2002,
-Beijing / 北京,"39.9067,116.3975",Beijing / 北京市,China / 中国,CHN,tourism,2011,Tiananmen Square / 天安门广场|Summer Palace / 颐和园
-Beijing / 北京,"39.9067,116.3975",Beijing / 北京市,China / 中国,CHN,tourism,2015,Tiananmen Square / 天安门广场
-Beijing / 北京,"39.9067,116.3975",Beijing / 北京市,China / 中国,CHN,transportation,2006,Beijingxi Railway Station / 北京西站
-Beijing / 北京,"39.9067,116.3975",Beijing / 北京市,China / 中国,CHN,transportation,2009,Beijingxi Railway Station / 北京西站
-Shanghai / 上海,"31.2304,121.4737",Shanghai / 上海市,China / 中国,CHN,tourism,2010,The Bund / 外滩
-Shanghai / 上海,"31.2304,121.4737",Shanghai / 上海市,China / 中国,CHN,tourism,2014,The Bund / 外滩|Yu Garden / 豫园
-Shanghai / 上海,"31.2304,121.4737",Shanghai / 上海市,China / 中国,CHN,transportation,2010,Pudong Airport / 浦东国际机场
-Oxford,"51.7520,-1.2577",Oxfordshire,United Kingdom,GBR,university,2018,Balliol College
-Oxford,"51.7520,-1.2577",Oxfordshire,United Kingdom,GBR,university,2019,Balliol College
-Oxford,"51.7520,-1.2577",Oxfordshire,United Kingdom,GBR,university,2020,Balliol College
-Oxford,"51.7520,-1.2577",Oxfordshire,United Kingdom,GBR,university,2021,Balliol College
-Oxford,"51.7520,-1.2577",Oxfordshire,United Kingdom,GBR,university,2022,Balliol College
-Oxford,"51.7520,-1.2577",Oxfordshire,United Kingdom,GBR,transportation,2018,Oxford Train Station
-London,"51.5074,-0.1278",England,United Kingdom,GBR,tourism,2018,British Museum|Tower of London
-London,"51.5074,-0.1278",England,United Kingdom,GBR,tourism,2020,British Museum
-London,"51.5074,-0.1278",England,United Kingdom,GBR,transportation,2018,Heathrow Airport
-London,"51.5074,-0.1278",England,United Kingdom,GBR,transportation,2020,Heathrow Airport
-London,"51.5074,-0.1278",England,United Kingdom,GBR,transportation,2022,Heathrow Airport
-London,"51.5074,-0.1278",England,United Kingdom,GBR,matchday,2019,Emirates Stadium
-Tokyo / 東京,"35.6762,139.6503",Tokyo Metropolis,Japan,JPN,tourism,2017,Senso-ji Temple / 浅草寺|Shinjuku
-Tokyo / 東京,"35.6762,139.6503",Tokyo Metropolis,Japan,JPN,transportation,2017,Haneda Airport / 羽田空港
-Seattle,"47.6062,-122.3321",Washington,United States,USA,workplace,2023,Fred Hutchinson Cancer Center
-Seattle,"47.6062,-122.3321",Washington,United States,USA,workplace,2024,Fred Hutchinson Cancer Center
-Seattle,"47.6062,-122.3321",Washington,United States,USA,workplace,2025,Fred Hutchinson Cancer Center
-Seattle,"47.6062,-122.3321",Washington,United States,USA,tourism,2023,Pike Place Market
-Seattle,"47.6062,-122.3321",Washington,United States,USA,tourism,2024,Pike Place Market|Space Needle
-Paris,"48.8566,2.3522",Île-de-France,France,FRA,tourism,2016,Eiffel Tower|Louvre Museum
-Paris,"48.8566,2.3522",Île-de-France,France,FRA,transportation,2016,Charles de Gaulle Airport
-Sacramento,"38.5816,-121.4944",California,United States,USA,tourism,2024,Old Sacramento|State Capitol
-Hong Kong / 香港,"22.3193,114.1694",Hong Kong,China / 中国,HKG,home,2003,
-Hong Kong / 香港,"22.3193,114.1694",Hong Kong,China / 中国,HKG,home,2004,
-Hong Kong / 香港,"22.3193,114.1694",Hong Kong,China / 中国,HKG,tourism,2015,Victoria Peak / 太平山頂|Temple Street / 廟街
-Hong Kong / 香港,"22.3193,114.1694",Hong Kong,China / 中国,HKG,transportation,2015,Hong Kong International Airport / 香港國際機場
+Sanmenxia / 三门峡,"34.7732, 111.2004",Henan / 河南省,China / 中国,CHN,home,1996,
+Sanmenxia / 三门峡,"34.7732, 111.2004",Henan / 河南省,China / 中国,CHN,home,1997,
+Sanmenxia / 三门峡,"34.7732, 111.2004",Henan / 河南省,China / 中国,CHN,home,1998,
+Sanmenxia / 三门峡,"34.7732, 111.2004",Henan / 河南省,China / 中国,CHN,home,1999,
+Sanmenxia / 三门峡,"34.7732, 111.2004",Henan / 河南省,China / 中国,CHN,home,2000,
+Sanmenxia / 三门峡,"34.7732, 111.2004",Henan / 河南省,China / 中国,CHN,home,2001,
+Sanmenxia / 三门峡,"34.7732, 111.2004",Henan / 河南省,China / 中国,CHN,home,2002,
+Sanmenxia / 三门峡,"34.7732, 111.2004",Henan / 河南省,China / 中国,CHN,home,2003,
+Sanmenxia / 三门峡,"34.7732, 111.2004",Henan / 河南省,China / 中国,CHN,home,2004,
+Sanmenxia / 三门峡,"34.7732, 111.2004",Henan / 河南省,China / 中国,CHN,home,2005,
+Sanmenxia / 三门峡,"34.7732, 111.2004",Henan / 河南省,China / 中国,CHN,school,2002,Yucai Primary School / 三门峡育才小学
+Sanmenxia / 三门峡,"34.7732, 111.2004",Henan / 河南省,China / 中国,CHN,school,2003,Yucai Primary School / 三门峡育才小学
+Sanmenxia / 三门峡,"34.7732, 111.2004",Henan / 河南省,China / 中国,CHN,school,2004,Yucai Primary School / 三门峡育才小学
+Sanmenxia / 三门峡,"34.7732, 111.2004",Henan / 河南省,China / 中国,CHN,school,2005,Yucai Primary School / 三门峡育才小学
+Sanmenxia / 三门峡,"34.7732, 111.2004",Henan / 河南省,China / 中国,CHN,tourism,1998,Shaanzhou Scenic Area / 陕州风景区
+Sanmenxia / 三门峡,"34.7732, 111.2004",Henan / 河南省,China / 中国,CHN,tourism,2002,Shaanzhou Scenic Area / 陕州风景区
+Sanmenxia / 三门峡,"34.7732, 111.2004",Henan / 河南省,China / 中国,CHN,tourism,2001,Huanghe Forest Park / 黄河森林公园
+Sanmenxia / 三门峡,"34.7732, 111.2004",Henan / 河南省,China / 中国,CHN,tourism,2002,Huanghe Forest Park / 黄河森林公园
+Sanmenxia / 三门峡,"34.7732, 111.2004",Henan / 河南省,China / 中国,CHN,tourism,2003,Huanghe Forest Park / 黄河森林公园
+Sanmenxia / 三门峡,"34.7732, 111.2004",Henan / 河南省,China / 中国,CHN,tourism,2004,Huanghe Forest Park / 黄河森林公园
+Sanmenxia / 三门峡,"34.7732, 111.2004",Henan / 河南省,China / 中国,CHN,tourism,2005,Huanghe Forest Park / 黄河森林公园
+Sanmenxia / 三门峡,"34.7732, 111.2004",Henan / 河南省,China / 中国,CHN,personal,2007,
+Xiping / 西平,"33.388, 114.022",Henan / 河南省,China / 中国,CHN,personal,1998,Pan Village / 潘庄
+Xiping / 西平,"33.388, 114.022",Henan / 河南省,China / 中国,CHN,personal,2008,Pan Village / 潘庄
+Xiping / 西平,"33.388, 114.022",Henan / 河南省,China / 中国,CHN,personal,2023,Pan Village / 潘庄
+Laoting / 乐亭,"39.433333, 118.916667",Hebei / 河北省,China / 中国,CHN,personal,1999,Zhong Village / 钟庄
+Laoting / 乐亭,"39.433333, 118.916668",Hebei / 河北省,China / 中国,CHN,personal,2005,Zhong Village / 钟庄
+Laoting / 乐亭,"39.433333, 118.916669",Hebei / 河北省,China / 中国,CHN,personal,2023,Zhong Village / 钟庄
+Zhoukou / 周口,"33.6367, 114.7014",Henan / 河南省,China / 中国,CHN,personal,2008,
+Shijiazhuang / 石家庄,"38.0425, 114.51",Hebei / 河北省,China / 中国,CHN,tourism,2004,Hebei Science and Technology Museum / 河北省科学技术馆
+Guilin / 桂林,"25.275, 110.296",Guangxi / 广西壮族自治区,China / 中国,CHN,tourism,2007,Elephant Trunk Hill / 象鼻山
+Guilin / 桂林,"25.275, 110.296",Guangxi / 广西壮族自治区,China / 中国,CHN,tourism,2007,Qixing Park / 七星公园
+Guilin / 桂林,"25.275, 110.296",Guangxi / 广西壮族自治区,China / 中国,CHN,tourism,2007,Crown Cave / 冠岩
+Yangshuo / 阳朔,"24.783333, 110.5",Guangxi / 广西壮族自治区,China / 中国,CHN,tourism,2007,West Street / 西街
+Yangshuo / 阳朔,"24.783333, 110.5",Guangxi / 广西壮族自治区,China / 中国,CHN,tourism,2007,Li River / 漓江
+Nanjing / 南京,"32.060833, 118.778889",Jiangsu / 江苏省,China / 中国,CHN,tourism,2006,Purple Mountain Observatory / 紫金山天文台
+Suzhou / 苏州,"31.3, 120.619444",Jiangsu / 江苏省,China / 中国,CHN,tourism,2006,Huqiu / 虎丘
+Suzhou / 苏州,"31.3, 120.619444",Jiangsu / 江苏省,China / 中国,CHN,tourism,2006,Humble Administrator's Garden / 拙政园
+Suzhou / 苏州,"31.3, 120.619444",Jiangsu / 江苏省,China / 中国,CHN,tourism,2006,Hanshan Temple / 寒山寺
+Suzhou / 苏州,"31.3, 120.619444",Jiangsu / 江苏省,China / 中国,CHN,tourism,2006,Zhouzhuang / 周庄
+Shanghai / 上海,"31.2325, 121.469167",Shanghai / 上海市,China / 中国,CHN,tourism,2006,Oriental Pearl TV Tower / 东方明珠电视塔
+Shanghai / 上海,"31.2325, 121.469167",Shanghai / 上海市,China / 中国,CHN,tourism,2006,Fudan University / 复旦大学
+Hangzhou / 杭州,"30.267, 120.153",Zhejiang / 浙江省,China / 中国,CHN,tourism,2006,West Lake / 西湖
+Hangzhou / 杭州,"30.267, 120.153",Zhejiang / 浙江省,China / 中国,CHN,tourism,2006,Zhejiang University / 浙江大学
+Sanya / 三亚,"18.253333, 109.503611",Hainan / 海南省,China / 中国,CHN,tourism,2006,Luhuitou Park / 鹿回头公园
+Sanya / 三亚,"18.253333, 109.503611",Hainan / 海南省,China / 中国,CHN,tourism,2006,Tianya Haijiao / 天涯海角
+Sanya / 三亚,"18.253333, 109.503611",Hainan / 海南省,China / 中国,CHN,tourism,2006,Nanshan Temple / 南山寺
+Sanya / 三亚,"18.253333, 109.503611",Hainan / 海南省,China / 中国,CHN,airport,2006,Sanya Phoenix International Airport (SYX) / 三亚凤凰国际机场
+Wanning / 万宁,"18.8, 110.4",Hainan / 海南省,China / 中国,CHN,tourism,2006,Xinglong Tropical Botanical Garden / 兴隆热带植物园
+Wanning / 万宁,"18.8, 110.4",Hainan / 海南省,China / 中国,CHN,tourism,2006,Sun and Moon Bay / 日月湾
+Qionghai / 琼海,"19.243056, 110.464167",Hainan / 海南省,China / 中国,CHN,tourism,2006,Bo'ao / 博鳌镇
+Song County / 嵩县,"34.1345, 112.0856",Henan / 河南省,China / 中国,CHN,tourism,2008,Baiyun Mountain / 白云山
+Dengfeng / 登封,"34.455278, 113.025278",Henan / 河南省,China / 中国,CHN,tourism,2008,Shaolin Monastery / 少林寺
+Dengfeng / 登封,"34.455278, 113.025278",Henan / 河南省,China / 中国,CHN,tourism,2008,Mount Song / 嵩山
