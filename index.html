@@ -41,12 +41,13 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 1
 /* ════════════ TAB 1 — ATLAS ════════════ */
 .at-root{flex:1;display:flex;flex-direction:column;min-height:0;}
 .at-head{flex-shrink:0;border-bottom:0.5px solid var(--border);background:linear-gradient(180deg,rgba(22,31,48,0.45),rgba(10,15,30,0));}
-.at-hero{padding:14px 1.5rem 10px;}
-.at-stats{display:flex;gap:26px;flex-wrap:wrap;margin-bottom:13px;}
-.at-stat{display:flex;flex-direction:column;gap:3px;}
-.at-stat-k{font-size:9px;text-transform:uppercase;letter-spacing:0.13em;color:var(--muted2);}
-.at-stat-v{font-size:15px;font-weight:600;color:var(--text);font-variant-numeric:tabular-nums;display:flex;align-items:center;gap:6px;}
-.at-stat-v .dot{width:8px;height:8px;border-radius:50%;}
+.at-hero{padding:8px 1.5rem 6px;}
+.at-hero-toggle{display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:6px 2px;user-select:none;}
+.at-hero-toggle-label{font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);font-weight:500;}
+.at-hero-toggle-icon{font-size:10px;color:var(--muted2);transition:transform 0.2s;}
+.at-hero-toggle:hover .at-hero-toggle-label{color:var(--text);}
+.at-hero-body{overflow:hidden;max-height:380px;opacity:1;transition:max-height 0.28s ease,opacity 0.2s ease,margin-top 0.28s ease;margin-top:4px;}
+.at-hero-body.collapsed{max-height:0;opacity:0;margin-top:0;}
 
 .at-timeline-wrap{margin-bottom:11px;}
 .at-timeline{height:82px;display:flex;align-items:flex-end;gap:2px;}
@@ -203,12 +204,17 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 1
     <div class="at-root">
       <div class="at-head">
         <div class="at-hero">
-          <div class="at-stats" id="at-stats"></div>
-          <div class="at-timeline-wrap">
-            <div class="at-timeline" id="at-timeline"></div>
-            <div class="at-axis" id="at-axis"></div>
+          <div class="at-hero-toggle" id="at-hero-toggle">
+            <span class="at-hero-toggle-label">Timeline &amp; categories</span>
+            <span class="at-hero-toggle-icon" id="at-hero-icon">&#9662;</span>
           </div>
-          <div class="at-chips" id="at-chips"></div>
+          <div class="at-hero-body" id="at-hero-body">
+            <div class="at-timeline-wrap">
+              <div class="at-timeline" id="at-timeline"></div>
+              <div class="at-axis" id="at-axis"></div>
+            </div>
+            <div class="at-chips" id="at-chips"></div>
+          </div>
         </div>
         <div class="at-controls">
           <div class="at-search">
@@ -277,21 +283,21 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 1
 
 const PLACES_CSV = 'places.csv';
 
-const REASON_ORDER = ['home','school','university','workplace','personal','friends','business','tourism','matchday','shopping','airport'];
+const REASON_ORDER = ['home','school','university','workplace','personal','business','matchday','tourism','airport'];
 const REASON_LABELS = {
   'home':'Home','school':'School','university':'University','workplace':'Workplace',
-  'personal':'Personal','friends':'Friends','business':'Business',
-  'tourism':'Tourism','matchday':'Matchday','shopping':'Shopping','airport':'Airport'
+  'personal':'Personal','business':'Business',
+  'matchday':'Matchday','tourism':'Tourism','airport':'Airport'
 };
 const REASON_FALLBACK = {
   'home':'🏠','school':'🏫','university':'🎓','workplace':'💼',
-  'personal':'🧍','friends':'👥','business':'🤝','tourism':'🗺️',
-  'matchday':'⚽','shopping':'🛍️','airport':'✈️'
+  'personal':'🧍','business':'🤝',
+  'matchday':'⚽','tourism':'🗺️','airport':'✈️'
 };
 const REASON_COLORS = {
   'home':'#fa5252','school':'#fd7e14','university':'#fab005','workplace':'#82c91e',
-  'personal':'#40c057','friends':'#15aabf','business':'#4263eb','tourism':'#7950f2',
-  'matchday':'#e64980','shopping':'#be4bdb','airport':'#868e96'
+  'personal':'#40c057','business':'#4263eb',
+  'matchday':'#e64980','tourism':'#7950f2','airport':'#868e96'
 };
 
 // ── State ──
@@ -483,40 +489,7 @@ function renderTimeline() {
   });
 }
 
-function renderStats() {
-  var el = document.getElementById('at-stats');
-  el.innerHTML = '';
-  function stat(k, vNode) {
-    var d = document.createElement('div'); d.className = 'at-stat';
-    var kk = document.createElement('div'); kk.className = 'at-stat-k'; kk.textContent = k;
-    var vv = document.createElement('div'); vv.className = 'at-stat-v';
-    if (typeof vNode === 'string') vv.textContent = vNode; else vv.appendChild(vNode);
-    d.appendChild(kk); d.appendChild(vv); el.appendChild(d);
-  }
-  var base = listBaseVisits();
-  if (!base.length) { stat('Showing', 'No visits'); return; }
 
-  var years = base.map(function(o){ return yearNum(o.visit.year); });
-  var minY = Math.min.apply(null, years), maxY = Math.max.apply(null, years);
-  stat('Span', minY === maxY ? String(minY) : (minY + '–' + maxY));
-
-  var byYear = {}; base.forEach(function(o){ byYear[o.visit.year] = (byYear[o.visit.year] || 0) + 1; });
-  var busiest = Object.keys(byYear).sort(function(a,b){ return byYear[b] - byYear[a]; })[0];
-  stat('Busiest year', busiest + ' (' + byYear[busiest] + ')');
-
-  var byCity = {}; base.forEach(function(o){ byCity[o.city.key] = (byCity[o.city.key] || 0) + 1; });
-  var topKey = Object.keys(byCity).sort(function(a,b){ return byCity[b] - byCity[a]; })[0];
-  var topCity = allCities.find(function(c){ return c.key === topKey; });
-  stat('Most visited', topCity ? (topCity.name + ' (' + byCity[topKey] + ')') : '—');
-
-  var byCat = {}; base.forEach(function(o){ byCat[o.visit.reason] = (byCat[o.visit.reason] || 0) + 1; });
-  var topCat = Object.keys(byCat).sort(function(a,b){ return byCat[b] - byCat[a]; })[0];
-  var span = document.createElement('span');
-  var dot = document.createElement('span'); dot.className = 'dot'; dot.style.background = REASON_COLORS[topCat] || '#4f9cf9';
-  span.appendChild(dot);
-  span.appendChild(document.createTextNode((REASON_LABELS[topCat] || topCat) + ' (' + byCat[topCat] + ')'));
-  stat('Top reason', span);
-}
 
 function buildDetail(fv, freasons) {
   var content = document.createElement('div');
@@ -663,7 +636,6 @@ function renderCards() {
 
 function renderAtlas() {
   renderTimeline();
-  renderStats();
   renderCards();
   document.querySelectorAll('.at-chip').forEach(function(ch) {
     var on = listCats.has(ch.dataset.r);
@@ -968,6 +940,23 @@ async function init() {
     document.getElementById('at-country').value = '';
     document.getElementById('at-sort').value = 'name';
     renderAtlas();
+  });
+
+  // Hero collapse toggle: remembers the visitor's choice; defaults closed on narrow
+  // screens (where the timeline takes up the most relative space) and open otherwise.
+  var heroBody = document.getElementById('at-hero-body');
+  var heroIcon = document.getElementById('at-hero-icon');
+  var HERO_KEY = 'atlas-hero-collapsed';
+  function setHeroCollapsed(collapsed) {
+    heroBody.classList.toggle('collapsed', collapsed);
+    heroIcon.style.transform = collapsed ? 'rotate(-90deg)' : 'rotate(0deg)';
+    try { localStorage.setItem(HERO_KEY, collapsed ? '1' : '0'); } catch(e) {}
+  }
+  var savedHero = null;
+  try { savedHero = localStorage.getItem(HERO_KEY); } catch(e) {}
+  setHeroCollapsed(savedHero !== null ? savedHero === '1' : window.innerWidth < 700);
+  document.getElementById('at-hero-toggle').addEventListener('click', function() {
+    setHeroCollapsed(!heroBody.classList.contains('collapsed'));
   });
 
   // Globe controls
