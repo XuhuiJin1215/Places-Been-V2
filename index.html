@@ -762,7 +762,7 @@ function showPopup(city, px, py) {
   gSelCity = city.key;
   var popupCity = document.getElementById('popup-city');
   popupCity.innerHTML = '';
-  popupCity.appendChild(document.createTextNode(city.name + ' · '));
+  popupCity.appendChild(document.createTextNode(city.name + '   '));
   popupCity.appendChild(flagImg(city.countryCode, 'popup-flag'));
 
   var vs = gVisits(city);
