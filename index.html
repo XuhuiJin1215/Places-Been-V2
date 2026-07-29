@@ -151,7 +151,6 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 1
 .st-bars{display:flex;flex-direction:column;gap:9px;}
 .st-bar{display:flex;align-items:center;gap:8px;}
 .st-barflag{width:18px;height:13px;object-fit:cover;border-radius:2px;box-shadow:0 0 0 0.5px var(--border2);flex-shrink:0;}
-.st-barname{font-size:12px;color:var(--text);width:92px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .st-bartrack{flex:1;height:7px;background:var(--panel2);border-radius:4px;overflow:hidden;min-width:0;}
 .st-barfill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--accent),#7950f2);width:0;transition:width 0.9s cubic-bezier(.2,.85,.25,1);}
 .st-barval{font-size:10px;color:var(--muted);width:34px;text-align:right;flex-shrink:0;font-variant-numeric:tabular-nums;}
@@ -1103,20 +1102,6 @@ function computeStats() {
     });
   }
 
-  // Streaks and gaps across active years
-  s.streak = { len: 0, from: null, to: null };
-  s.gap    = { len: 0, from: null, to: null };
-  var run = 1;
-  for (i = 1; i <= s.activeYears.length; i++) {
-    var prev = s.activeYears[i-1], cur = s.activeYears[i];
-    if (cur === prev + 1) { run++; }
-    else {
-      if (run > s.streak.len) s.streak = { len: run, from: s.activeYears[i-run], to: prev };
-      run = 1;
-      if (cur !== undefined && cur - prev - 1 > s.gap.len) s.gap = { len: cur - prev - 1, from: prev, to: cur };
-    }
-  }
-
   // Superlatives
   s.busiestYear = null; s.busiestN = 0;
   var yv = {};
@@ -1130,6 +1115,19 @@ function computeStats() {
   });
   s.firstCity = allCities.filter(function(c){ return yearNum(c.allYears[0]) === GMIN; })[0] || null;
   s.lastCity  = allCities.filter(function(c){ return yearNum(c.allYears[c.allYears.length-1]) === GMAX; })[0] || null;
+
+  // Year with the most distinct cities, and the city with the most named places
+  s.mostCitiesYear = null; s.mostCitiesN = 0;
+  s.perYear.forEach(function(d) {
+    var n2 = d.fresh + d.again;
+    if (n2 > s.mostCitiesN) { s.mostCitiesN = n2; s.mostCitiesYear = d.year; }
+  });
+  s.placesCity = null; s.placesCityN = 0;
+  allCities.forEach(function(c) {
+    var set = new Set();
+    c.visits.forEach(function(v){ v.places.forEach(function(p){ set.add(p); }); });
+    if (set.size > s.placesCityN) { s.placesCityN = set.size; s.placesCity = c; }
+  });
 
   return s;
 }
@@ -1329,25 +1327,21 @@ function stRhythm(s) {
 // ── 5. Country leaderboard ──
 function stCountries(s) {
   var c = card('Most explored countries', 'sp5');
-  var list = s.countryList.slice(0, 8);
-  var max = list.length ? list[0].cities : 1;
+  var list = s.countryList.slice().sort(function(a,b){ return b.visits - a.visits; }).slice(0, 8);
+  var max = list.length ? list[0].visits : 1;
   var bars = dv('div', 'st-bars');
   list.forEach(function(d) {
     var row = dv('div', 'st-bar');
     row.appendChild(flagImg(d.code, 'st-barflag'));
-    row.appendChild(dv('div', 'st-barname', d.name));
     var track = dv('div', 'st-bartrack'), fill = dv('div', 'st-barfill');
-    fill.title = d.cities + ' cities · ' + d.visits + ' visits';
+    fill.title = d.name + ' · ' + d.visits + ' visits · ' + d.cities + ' cities';
     track.appendChild(fill);
     row.appendChild(track);
-    row.appendChild(dv('div', 'st-barval', d.cities));
+    row.appendChild(dv('div', 'st-barval', d.visits));
     bars.appendChild(row);
-    requestAnimationFrame(function(){ fill.style.width = (d.cities/max*100) + '%'; });
+    requestAnimationFrame(function(){ fill.style.width = (d.visits/max*100) + '%'; });
   });
   c.appendChild(bars);
-  var sub = dv('div', 'st-sub');
-  sub.innerHTML = 'Bar length = cities visited. Hover for visit counts.';
-  c.appendChild(sub);
   return c;
 }
 
@@ -1392,7 +1386,7 @@ function stFootprint(s) {
   if (s.west)  bits.push('<b>Westernmost</b> ' + s.west.name + ' (' + coord(s.west.lng,'E','W') + ')');
   if (s.east)  bits.push('<b>Easternmost</b> ' + s.east.name + ' (' + coord(s.east.lng,'E','W') + ')');
   if (s.farPair) bits.push('<b>Widest separation</b> ' + s.farPair[0].name + ' ↔ ' + s.farPair[1].name + ', ' + km(s.farDist));
-  sub.innerHTML = bits.join(' &nbsp;·&nbsp; ') + '<br>Dot size = visits, colour = leading category. No coastlines — just where you have stood.';
+  sub.innerHTML = bits.join(' &nbsp;·&nbsp; ');
   c.appendChild(sub);
   return c;
 }
@@ -1416,8 +1410,8 @@ function stRecords(s) {
   if (s.busiestYear) rec('Busiest year',   s.busiestYear,    s.busiestN + ' visits');
   if (s.topCity)    rec('Most returned to', s.topCity.name,  s.topCity.visits.length + ' visits');
   if (s.variedCity) rec('Most varied',     s.variedCity.name, s.variedCity.allReasons.length + ' categories');
-  if (s.streak.len > 1) rec('Longest streak', s.streak.len + ' yrs', s.streak.from + '–' + s.streak.to);
-  if (s.gap.len > 0)    rec('Longest quiet spell', s.gap.len + ' yrs', s.gap.from + '→' + s.gap.to);
+  if (s.mostCitiesYear) rec('Most cities in a year', s.mostCitiesYear, s.mostCitiesN + ' cities');
+  if (s.placesCity) rec('Most explored city', s.placesCity.name, s.placesCityN + ' named places');
   if (s.home)       rec('Home base',       s.home.name, null);
   if (s.fromHome)   rec('Furthest from home', s.fromHome.name, km(s.fromHomeDist));
   c.appendChild(recs);
@@ -1447,9 +1441,6 @@ function stHeatmap(s) {
   var axis = dv('div', 'st-heataxis');
   yearTicks(axis, n);
   c.appendChild(axis);
-  var sub = dv('div', 'st-sub');
-  sub.innerHTML = 'Each row is shaded against its own busiest year, so a quiet category still shows its shape rather than disappearing next to a loud one.';
-  c.appendChild(sub);
   return c;
 }
 
