@@ -551,8 +551,9 @@ function renderTimeline() {
   listBaseVisits().forEach(function(o) {
     var idx = yearNum(o.visit.year) - GMIN;
     if (idx < 0 || idx >= n) return;
-    counts[idx].total++;
-    counts[idx].byCat[o.visit.reason] = (counts[idx].byCat[o.visit.reason] || 0) + 1;
+    var pts = o.visit.sig || 1;
+    counts[idx].total += pts;
+    counts[idx].byCat[o.visit.reason] = (counts[idx].byCat[o.visit.reason] || 0) + pts;
   });
   var maxTotal = counts.reduce(function(m,c){ return Math.max(m, c.total); }, 0) || 1;
   var stackCats = catsInUse();
@@ -561,7 +562,7 @@ function renderTimeline() {
     var year = GMIN + i;
     var col = document.createElement('div');
     col.className = 'at-col' + (listYear && String(year) !== listYear ? ' dim' : '');
-    col.title = year + ' · ' + c.total + ' visit' + (c.total !== 1 ? 's' : '');
+    col.title = year + ' · ' + c.total + ' pt' + (c.total !== 1 ? 's' : '');
     if (c.total > 0) {
       var bar = document.createElement('div');
       bar.className = 'at-bar';
@@ -763,9 +764,9 @@ function populateFilters() {
   GMIN = allY.length ? Math.min.apply(null, allY) : 2000;
   GMAX = allY.length ? Math.max.apply(null, allY) : 2025;
 
-  // Category visit counts (whole dataset)
+  // Category points (whole dataset) — chips show scores, matching the points-first list view
   catCounts = {};
-  allCities.forEach(function(c){ c.visits.forEach(function(v){ catCounts[v.reason] = (catCounts[v.reason] || 0) + 1; }); });
+  allCities.forEach(function(c){ c.visits.forEach(function(v){ catCounts[v.reason] = (catCounts[v.reason] || 0) + (v.sig || 1); }); });
 
   // Country dropdown (atlas)
   var countrySelect = document.getElementById('at-country');
@@ -784,6 +785,7 @@ function populateFilters() {
     var dot = document.createElement('span'); dot.className = 'cdot'; dot.style.background = REASON_COLORS[r] || '#4f9cf9';
     var lbl = document.createElement('span'); lbl.textContent = REASON_LABELS[r] || r;
     var cnt = document.createElement('span'); cnt.className = 'ccount'; cnt.textContent = catCounts[r] || 0;
+    chip.title = (catCounts[r] || 0) + ' pts';
     chip.appendChild(dot); chip.appendChild(lbl); chip.appendChild(cnt);
     chip.addEventListener('click', function() {
       if (listCats.has(r)) listCats.delete(r); else listCats.add(r);
