@@ -104,6 +104,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 1
 .at-dot{position:absolute;top:50%;width:9px;height:9px;border-radius:50%;transform:translate(-50%,-50%);border:1.5px solid rgba(10,15,30,0.85);box-shadow:0 0 0 1px rgba(255,255,255,0.06);}
 .at-cardright{display:flex;flex-direction:column;align-items:flex-end;gap:7px;flex-shrink:0;}
 .at-visitcount{font-size:12px;color:var(--accent);background:var(--accent-dim);border-radius:20px;padding:3px 10px;white-space:nowrap;}
+.at-scorecount{font-size:12px;color:#f5b942;background:rgba(245,185,66,0.13);border-radius:20px;padding:3px 10px;white-space:nowrap;}
 .at-chev{font-size:11px;color:var(--muted);transition:transform 0.2s;}
 .at-card.expanded .at-chev{transform:rotate(90deg);}
 
@@ -123,6 +124,12 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 1
 
 /* ════════════ TAB 3 — STATS ════════════ */
 .st-root{flex:1;overflow-y:auto;padding:18px 1.5rem 40px;}
+.st-metricbar{display:flex;align-items:center;gap:10px;max-width:1180px;margin:0 auto 14px;}
+.st-metriclabel{font-size:10px;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted2);}
+.st-seg{display:inline-flex;background:var(--panel2);border:0.5px solid var(--border2);border-radius:20px;padding:2px;gap:2px;}
+.st-segbtn{background:none;border:none;color:var(--muted);font-size:11.5px;font-family:inherit;font-weight:500;padding:5px 13px;border-radius:16px;cursor:pointer;transition:background 0.15s,color 0.15s;}
+.st-segbtn:hover{color:var(--text);}
+.st-segbtn.active{background:var(--accent);color:#08101f;}
 .st-root::-webkit-scrollbar{width:6px;}
 .st-root::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:3px;}
 .st-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px;max-width:1180px;margin:0 auto;}
@@ -283,7 +290,8 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 1
             <option value="country">Country A–Z</option>
             <option value="first">Earliest visit</option>
             <option value="last">Latest visit</option>
-            <option value="visits" selected>Most visits</option>
+            <option value="visits">Most visits</option>
+            <option value="points" selected>Most points</option>
             <option value="cats">Most categories</option>
           </select>
           <div class="at-count" id="at-count"></div>
@@ -336,6 +344,13 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 1
   <!-- TAB 3: STATS -->
   <div class="tab-panel" id="panel-stats">
     <div class="st-root">
+      <div class="st-metricbar">
+        <span class="st-metriclabel">Charts show</span>
+        <div class="st-seg" id="st-seg">
+          <button class="st-segbtn active" data-metric="points" type="button">Points</button>
+          <button class="st-segbtn" data-metric="visits" type="button">Visits</button>
+        </div>
+      </div>
       <div class="st-grid" id="st-grid"></div>
     </div>
   </div>
@@ -381,7 +396,7 @@ function catsInUse() {
 
 // ── State ──
 let allCities = [];
-let listSearch = '', listCountry = '', listSort = 'visits', listYear = '';
+let listSearch = '', listCountry = '', listSort = 'points', listYear = '';
 let listCats = new Set();
 let gSearch = '', gReason = 'all', gYear = '';
 let expandedCity = null;
@@ -454,6 +469,9 @@ function buildCities(rows) {
     const reason   = (r.Reason || '').trim();
     const year     = (r.Year || '').trim();
     const places   = (r.Places || '').split('|').map(function(p){ return p.trim(); }).filter(Boolean);
+    const sigRaw   = (r.Significance || '').trim();
+    const sigNum   = parseInt(sigRaw, 10);
+    const sig      = (sigRaw !== '' && !isNaN(sigNum)) ? sigNum : 1;
     if (!cityName || !code) return;
     const key = cityName + '|' + code;
     if (!cityMap[key]) {
@@ -465,7 +483,7 @@ function buildCities(rows) {
       };
       keyOrder.push(key);
     }
-    if (reason && year) cityMap[key].visits.push({ reason: reason, year: year, places: places });
+    if (reason && year) cityMap[key].visits.push({ reason: reason, year: year, places: places, sig: sig });
   });
   return keyOrder.map(function(key) {
     var c = cityMap[key];
@@ -475,6 +493,9 @@ function buildCities(rows) {
     return c;
   });
 }
+
+// Sum of significance scores across a set of visits (1 pt per visit by default)
+function scoreOf(vs) { return vs.reduce(function(a,v){ return a + (v.sig || 1); }, 0); }
 
 // ── Header stats ──
 function updateStats() {
@@ -638,7 +659,7 @@ function renderCards() {
     var freasons = Array.from(new Set(fv.map(function(v){ return v.reason; })))
       .sort(bySeq);
     decorated.push({
-      city: c, fv: fv, fyears: fyears, freasons: freasons,
+      city: c, fv: fv, fyears: fyears, freasons: freasons, points: scoreOf(fv),
       minY: yearNum(fyears[0]), maxY: yearNum(fyears[fyears.length - 1])
     });
   });
@@ -649,6 +670,7 @@ function renderCards() {
       case 'first':   return a.minY - b.minY || a.city.name.localeCompare(b.city.name);
       case 'last':    return b.maxY - a.maxY || a.city.name.localeCompare(b.city.name);
       case 'visits':  return b.fv.length - a.fv.length || a.city.name.localeCompare(b.city.name);
+      case 'points':  return b.points - a.points || a.city.name.localeCompare(b.city.name);
       case 'cats':    return b.freasons.length - a.freasons.length || a.city.name.localeCompare(b.city.name);
       default:        return a.city.name.localeCompare(b.city.name);
     }
@@ -693,8 +715,10 @@ function renderCards() {
     var right = document.createElement('div'); right.className = 'at-cardright';
     var vc = document.createElement('div'); vc.className = 'at-visitcount';
     vc.textContent = d.fv.length + ' visit' + (d.fv.length !== 1 ? 's' : '');
+    var sc = document.createElement('div'); sc.className = 'at-scorecount';
+    sc.textContent = d.points + ' pts';
     var chev = document.createElement('div'); chev.className = 'at-chev'; chev.innerHTML = '&#9658;';
-    right.appendChild(vc); right.appendChild(chev);
+    right.appendChild(vc); right.appendChild(sc); right.appendChild(chev);
     main.appendChild(right);
     card.appendChild(main);
 
@@ -976,6 +1000,8 @@ async function initGlobe() {
 
 // ════════════ TAB 3 — STATS ════════════
 var statsRendered = false;
+var statsMetric = 'points';
+var statsData = null;
 var SVGNS = 'http://www.w3.org/2000/svg';
 
 function sv(tag, attrs) {
@@ -1007,9 +1033,10 @@ function computeStats() {
   var s = {}, i, k;
 
   var placeSet = new Set();
-  s.visitCount = 0;
+  s.visitCount = 0; s.totalPoints = 0;
   allCities.forEach(function(c) {
     s.visitCount += c.visits.length;
+    s.totalPoints += scoreOf(c.visits);
     c.visits.forEach(function(v) { v.places.forEach(function(p) { placeSet.add(c.key + '|' + p); }); });
   });
   s.placeCount   = placeSet.size;
@@ -1048,23 +1075,30 @@ function computeStats() {
     });
   });
 
-  // Category totals + category x year matrix
-  s.byCat = {};
-  allCities.forEach(function(c){ c.visits.forEach(function(v){ s.byCat[v.reason] = (s.byCat[v.reason]||0) + 1; }); });
+  // Category totals + category x year matrix (both by visit count and by points)
+  s.byCat = {}; s.byCatPoints = {};
+  allCities.forEach(function(c){ c.visits.forEach(function(v){
+    s.byCat[v.reason] = (s.byCat[v.reason]||0) + 1;
+    s.byCatPoints[v.reason] = (s.byCatPoints[v.reason]||0) + (v.sig || 1);
+  }); });
   s.catList = catsInUse();
-  s.matrix = {};
-  s.catList.forEach(function(r){ s.matrix[r] = s.years.map(function(){ return 0; }); });
+  s.matrix = {}; s.matrixPoints = {};
+  s.catList.forEach(function(r){ s.matrix[r] = s.years.map(function(){ return 0; }); s.matrixPoints[r] = s.years.map(function(){ return 0; }); });
   allCities.forEach(function(c){ c.visits.forEach(function(v) {
     var idx = yearNum(v.year) - GMIN;
-    if (idx >= 0 && idx < s.years.length && s.matrix[v.reason]) s.matrix[v.reason][idx]++;
+    if (idx >= 0 && idx < s.years.length && s.matrix[v.reason]) {
+      s.matrix[v.reason][idx]++;
+      s.matrixPoints[v.reason][idx] += (v.sig || 1);
+    }
   }); });
 
-  // Country leaderboard
+  // Country leaderboard (cities, visits, and points)
   var cm = {};
   allCities.forEach(function(c) {
-    if (!cm[c.countryCode]) cm[c.countryCode] = { code: c.countryCode, name: c.country, cities: 0, visits: 0 };
+    if (!cm[c.countryCode]) cm[c.countryCode] = { code: c.countryCode, name: c.country, cities: 0, visits: 0, points: 0 };
     cm[c.countryCode].cities++;
     cm[c.countryCode].visits += c.visits.length;
+    cm[c.countryCode].points += scoreOf(c.visits);
   });
   s.countryList = Object.keys(cm).map(function(x){ return cm[x]; })
     .sort(function(a,b){ return b.cities - a.cities || b.visits - a.visits || a.name.localeCompare(b.name); });
@@ -1127,6 +1161,18 @@ function computeStats() {
     var set = new Set();
     c.visits.forEach(function(v){ v.places.forEach(function(p){ set.add(p); }); });
     if (set.size > s.placesCityN) { s.placesCityN = set.size; s.placesCity = c; }
+  });
+
+  // Points-based records
+  s.highScoreYear = null; s.highScoreYearPts = 0;
+  var ypv = {};
+  allCities.forEach(function(c){ c.visits.forEach(function(v){ ypv[v.year] = (ypv[v.year]||0) + (v.sig || 1); }); });
+  Object.keys(ypv).forEach(function(y){ if (ypv[y] > s.highScoreYearPts) { s.highScoreYearPts = ypv[y]; s.highScoreYear = y; } });
+
+  s.highScoreCity = null; s.highScoreCityPts = 0;
+  allCities.forEach(function(c) {
+    var p = scoreOf(c.visits);
+    if (p > s.highScoreCityPts) { s.highScoreCityPts = p; s.highScoreCity = c; }
   });
 
   return s;
@@ -1225,8 +1271,11 @@ function stDiscovery(s) {
 }
 
 // ── 3. Category mix donut ──
-function stMix(s) {
+function stMix(s, metric) {
   var c = card('What took me there', 'sp5');
+  var byCat = metric === 'points' ? s.byCatPoints : s.byCat;
+  var total = metric === 'points' ? s.totalPoints : s.visitCount;
+  var unit  = metric === 'points' ? 'pts' : (metric === 'visits' ? '' : '');
   var S = 168, r = 57, cx = S/2, cy = S/2, sw = 21, C = 2*Math.PI*r;
   var svg = sv('svg', { viewBox:'0 0 '+S+' '+S, 'class':'st-svg' });
   svg.style.maxWidth = '186px'; svg.style.margin = '0 auto';
@@ -1234,7 +1283,7 @@ function stMix(s) {
 
   var acc = 0, arcs = [];
   s.catList.forEach(function(rk) {
-    var len = s.byCat[rk] / s.visitCount * C;
+    var len = (byCat[rk]||0) / total * C;
     var seg = Math.max(0, len - 1.6);
     var a = sv('circle', { cx:cx, cy:cy, r:r, fill:'none', stroke:REASON_COLORS[rk]||'#4f9cf9',
       'stroke-width':sw, 'stroke-dasharray':'0 '+C, 'stroke-dashoffset':-acc,
@@ -1247,19 +1296,20 @@ function stMix(s) {
   requestAnimationFrame(function(){ arcs.forEach(function(p){ p[0].setAttribute('stroke-dasharray', p[1]+' '+(C-p[1])); }); });
 
   var t1 = sv('text', { x:cx, y:cy+1, 'text-anchor':'middle', fill:'#e8eeff', 'font-size':'23', 'font-weight':'600' });
-  t1.textContent = s.visitCount;
+  t1.textContent = total;
   var t2 = sv('text', { x:cx, y:cy+16, 'text-anchor':'middle', fill:'#7a8baa', 'font-size':'9', 'letter-spacing':'1.4' });
-  t2.textContent = 'VISITS';
+  t2.textContent = metric === 'points' ? 'POINTS' : 'VISITS';
   svg.appendChild(t1); svg.appendChild(t2);
   c.appendChild(svg);
 
   var leg = dv('div', 'st-legend');
-  s.catList.slice().sort(function(a,b){ return s.byCat[b] - s.byCat[a]; }).forEach(function(rk) {
+  s.catList.slice().sort(function(a,b){ return (byCat[b]||0) - (byCat[a]||0); }).forEach(function(rk) {
     var row = dv('div', 'st-lrow');
     var sw2 = dv('span', 'sw'); sw2.style.background = REASON_COLORS[rk] || '#4f9cf9';
     row.appendChild(sw2);
     row.appendChild(dv('span', 'nm', REASON_LABELS[rk] || rk));
-    row.appendChild(dv('span', 'pc', s.byCat[rk] + '  ·  ' + Math.round(s.byCat[rk]/s.visitCount*100) + '%'));
+    var val = byCat[rk] || 0;
+    row.appendChild(dv('span', 'pc', val + (unit ? ' '+unit : '') + '  ·  ' + Math.round(val/total*100) + '%'));
     leg.appendChild(row);
   });
   c.appendChild(leg);
@@ -1325,32 +1375,34 @@ function stRhythm(s) {
 }
 
 // ── 5. Country leaderboard ──
-function stCountries(s) {
+function stCountries(s, metric) {
   var c = card('Most explored countries', 'sp5');
-  var list = s.countryList.slice().sort(function(a,b){ return b.visits - a.visits; }).slice(0, 8);
-  var max = list.length ? list[0].visits : 1;
+  function val(d) { return metric === 'points' ? d.points : d.visits; }
+  var list = s.countryList.slice().sort(function(a,b){ return val(b) - val(a); }).slice(0, 8);
+  var max = list.length ? val(list[0]) : 1;
   var bars = dv('div', 'st-bars');
   list.forEach(function(d) {
     var row = dv('div', 'st-bar');
     row.appendChild(flagImg(d.code, 'st-barflag'));
     var track = dv('div', 'st-bartrack'), fill = dv('div', 'st-barfill');
-    fill.title = d.name + ' · ' + d.visits + ' visits · ' + d.cities + ' cities';
+    fill.title = d.name + ' · ' + d.points + ' pts · ' + d.visits + ' visits · ' + d.cities + ' cities';
     track.appendChild(fill);
     row.appendChild(track);
-    row.appendChild(dv('div', 'st-barval', d.visits));
+    row.appendChild(dv('div', 'st-barval', val(d)));
     bars.appendChild(row);
-    requestAnimationFrame(function(){ fill.style.width = (d.visits/max*100) + '%'; });
+    requestAnimationFrame(function(){ fill.style.width = (val(d)/max*100) + '%'; });
   });
   c.appendChild(bars);
   return c;
 }
 
 // ── 6. Footprint — every city on a bare lat/lng field ──
-function stFootprint(s) {
+function stFootprint(s, metric) {
   var c = card('Footprint', 'sp8');
   var W = 720, H = 360;
   function X(lng) { return (lng+180)/360*W; }
   function Y(lat) { return (90-lat)/180*H; }
+  function val(c2) { return metric === 'points' ? scoreOf(c2.visits) : c2.visits.length; }
 
   var svg = sv('svg', { viewBox:'0 0 '+W+' '+H, 'class':'st-svg' });
   svg.appendChild(sv('rect', { x:0, y:0, width:W, height:H, fill:'rgba(255,255,255,0.016)', rx:'7' }));
@@ -1366,14 +1418,14 @@ function stFootprint(s) {
   eq.textContent = 'EQUATOR';
   svg.appendChild(eq);
 
-  var maxV = allCities.reduce(function(m,c2){ return Math.max(m, c2.visits.length); }, 1);
+  var maxV = allCities.reduce(function(m,c2){ return Math.max(m, val(c2)); }, 1);
   allCities.forEach(function(c2) {
-    var rad = 2.6 + Math.sqrt(c2.visits.length/maxV) * 4.4;
+    var rad = 2.6 + Math.sqrt(val(c2)/maxV) * 4.4;
     var col = REASON_COLORS[dominantReason(c2.visits)] || '#4f9cf9';
     svg.appendChild(sv('circle', { cx:X(c2.lng), cy:Y(c2.lat), r:rad+3.5, fill:col, opacity:'0.13' }));
     var dot = sv('circle', { cx:X(c2.lng), cy:Y(c2.lat), r:rad, fill:col, opacity:'0.95' });
     var ttl = sv('title');
-    ttl.textContent = c2.name + ' · ' + c2.country + ' · ' + c2.visits.length + ' visit' + (c2.visits.length===1?'':'s');
+    ttl.textContent = c2.name + ' · ' + c2.country + ' · ' + scoreOf(c2.visits) + ' pts · ' + c2.visits.length + ' visit' + (c2.visits.length===1?'':'s');
     dot.appendChild(ttl);
     svg.appendChild(dot);
   });
@@ -1408,7 +1460,9 @@ function stRecords(s) {
   if (s.firstCity)  rec('First on record', s.firstCity.name, GMIN);
   if (s.lastCity)   rec('Most recent',     s.lastCity.name,  GMAX);
   if (s.busiestYear) rec('Busiest year',   s.busiestYear,    s.busiestN + ' visits');
+  if (s.highScoreYear) rec('Highest-scoring year', s.highScoreYear, s.highScoreYearPts + ' pts');
   if (s.topCity)    rec('Most returned to', s.topCity.name,  s.topCity.visits.length + ' visits');
+  if (s.highScoreCity) rec('Highest-scoring city', s.highScoreCity.name, s.highScoreCityPts + ' pts');
   if (s.variedCity) rec('Most varied',     s.variedCity.name, s.variedCity.allReasons.length + ' categories');
   if (s.mostCitiesYear) rec('Most cities in a year', s.mostCitiesYear, s.mostCitiesN + ' cities');
   if (s.placesCity) rec('Most explored city', s.placesCity.name, s.placesCityN + ' named places');
@@ -1419,19 +1473,21 @@ function stRecords(s) {
 }
 
 // ── 8. Category rhythm heatmap ──
-function stHeatmap(s) {
+function stHeatmap(s, metric) {
   var c = card('Category rhythm', 'sp12');
   var n = s.years.length;
+  var mx = metric === 'points' ? s.matrixPoints : s.matrix;
+  var unit = metric === 'points' ? 'pt' : 'visit';
   var heat = dv('div', 'st-heat');
   s.catList.forEach(function(rk) {
     var row = dv('div', 'st-heatrow');
     row.appendChild(dv('div', 'st-heatlbl', REASON_LABELS[rk] || rk));
     var cells = dv('div', 'st-heatcells');
-    var rowMax = Math.max.apply(null, s.matrix[rk]) || 1;
-    s.matrix[rk].forEach(function(v, i) {
+    var rowMax = Math.max.apply(null, mx[rk]) || 1;
+    mx[rk].forEach(function(v, i) {
       var cell = dv('div', 'st-heatcell');
       if (v > 0) cell.style.background = hexA(REASON_COLORS[rk] || '#4f9cf9', 0.2 + 0.8*(v/rowMax));
-      cell.title = (GMIN+i) + ' · ' + (REASON_LABELS[rk]||rk) + ' · ' + v + ' visit' + (v===1?'':'s');
+      cell.title = (GMIN+i) + ' · ' + (REASON_LABELS[rk]||rk) + ' · ' + v + ' ' + unit + (v===1?'':'s');
       cells.appendChild(cell);
     });
     row.appendChild(cells);
@@ -1452,12 +1508,37 @@ function renderStatsTab() {
     return;
   }
   var s = computeStats();
-  [stHero, stDiscovery, stMix, stRhythm, stCountries, stFootprint, stRecords, stHeatmap]
-    .forEach(function(fn, i) {
-      var el2 = fn(s);
-      el2.style.animationDelay = (i * 45) + 'ms';
-      grid.appendChild(el2);
-    });
+  statsData = s;
+  var specs = [
+    { fn: stHero },
+    { fn: stDiscovery },
+    { fn: stMix,       id: 'st-card-mix',       metric: true },
+    { fn: stRhythm },
+    { fn: stCountries,  id: 'st-card-countries', metric: true },
+    { fn: stFootprint,  id: 'st-card-footprint', metric: true },
+    { fn: stRecords },
+    { fn: stHeatmap,    id: 'st-card-heatmap',   metric: true }
+  ];
+  specs.forEach(function(spec, i) {
+    var el2 = spec.metric ? spec.fn(s, statsMetric) : spec.fn(s);
+    if (spec.id) el2.id = spec.id;
+    el2.style.animationDelay = (i * 45) + 'ms';
+    grid.appendChild(el2);
+  });
+}
+
+// Re-render only the four charts whose values depend on the visits/points toggle,
+// leaving Hero, Discovery, Rhythm, and Records untouched (and not re-animated).
+function refreshMetricCards() {
+  if (!statsData) return;
+  [['st-card-mix', stMix], ['st-card-countries', stCountries],
+   ['st-card-footprint', stFootprint], ['st-card-heatmap', stHeatmap]].forEach(function(pair) {
+    var old = document.getElementById(pair[0]);
+    if (!old) return;
+    var el2 = pair[1](statsData, statsMetric);
+    el2.id = pair[0];
+    old.replaceWith(el2);
+  });
 }
 
 // ── Tabs ──
@@ -1510,10 +1591,10 @@ async function init() {
   document.getElementById('at-country').addEventListener('change', function(e){ listCountry = e.target.value; renderAtlas(); });
   document.getElementById('at-sort').addEventListener('change', function(e){ listSort = e.target.value; renderAtlas(); });
   document.getElementById('at-clear').addEventListener('click', function() {
-    listSearch = ''; listCountry = ''; listSort = 'visits'; listYear = ''; listCats.clear();
+    listSearch = ''; listCountry = ''; listSort = 'points'; listYear = ''; listCats.clear();
     document.getElementById('at-search').value = '';
     document.getElementById('at-country').value = '';
-    document.getElementById('at-sort').value = 'visits';
+    document.getElementById('at-sort').value = 'points';
     renderAtlas();
   });
 
@@ -1532,6 +1613,17 @@ async function init() {
   setHeroCollapsed(savedHero !== null ? savedHero === '1' : window.innerWidth < 700);
   document.getElementById('at-hero-toggle').addEventListener('click', function() {
     setHeroCollapsed(!heroBody.classList.contains('collapsed'));
+  });
+
+  // Stats metric toggle (Points / Visits)
+  document.querySelectorAll('.st-segbtn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      if (btn.classList.contains('active')) return;
+      document.querySelectorAll('.st-segbtn').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      statsMetric = btn.dataset.metric;
+      refreshMetricCards();
+    });
   });
 
   // Globe controls
