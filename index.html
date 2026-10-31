@@ -116,7 +116,6 @@ header{display:flex;align-items:center;justify-content:space-between;padding:0 1
 .at-rhead{display:flex;align-items:center;gap:9px;padding:8px 12px;user-select:none;}
 .at-ricon{width:19px;height:19px;object-fit:contain;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;font-size:14px;}
 .at-rlabel{font-size:12px;font-weight:500;color:var(--text);flex:1;}
-.at-rpts{font-size:10.5px;color:#f5b942;background:rgba(245,185,66,0.13);border-radius:20px;padding:1.5px 8px;white-space:nowrap;}
 .at-ryears{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums;}
 .at-rplaces{display:flex;flex-direction:column;gap:4px;padding:0 12px 10px 40px;}
 .at-place{font-size:12px;color:var(--muted);padding:4px 0;border-top:0.5px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:8px;}
@@ -623,8 +622,6 @@ function buildDetail(fv, freasons) {
     hdr.appendChild(iconImg(reason, 'at-ricon'));
     var lbl = document.createElement('span'); lbl.className = 'at-rlabel'; lbl.textContent = REASON_LABELS[reason] || reason;
     hdr.appendChild(lbl);
-    var pts = document.createElement('span'); pts.className = 'at-rpts'; pts.textContent = scoreOf(rv) + ' pts';
-    hdr.appendChild(pts);
     var yrs = document.createElement('span'); yrs.className = 'at-ryears'; yrs.textContent = years;
     hdr.appendChild(yrs);
     block.appendChild(hdr);
@@ -718,12 +715,19 @@ function renderCards() {
     main.appendChild(left);
 
     var right = document.createElement('div'); right.className = 'at-cardright';
+    // One number only: visits when sorting by "Most visits", points otherwise
     var badges = document.createElement('div'); badges.className = 'at-badgerow';
-    var vc = document.createElement('div'); vc.className = 'at-visitcount';
-    vc.textContent = d.fv.length + ' visit' + (d.fv.length !== 1 ? 's' : '');
-    var sc = document.createElement('div'); sc.className = 'at-scorecount';
-    sc.textContent = d.points + ' pts';
-    badges.appendChild(vc); badges.appendChild(sc);
+    var badge = document.createElement('div');
+    if (listSort === 'visits') {
+      badge.className = 'at-visitcount';
+      badge.textContent = d.fv.length;
+      badge.title = d.fv.length + ' visit' + (d.fv.length !== 1 ? 's' : '');
+    } else {
+      badge.className = 'at-scorecount';
+      badge.textContent = d.points;
+      badge.title = d.points + ' pt' + (d.points !== 1 ? 's' : '');
+    }
+    badges.appendChild(badge);
     var chev = document.createElement('div'); chev.className = 'at-chev'; chev.innerHTML = '&#9658;';
     right.appendChild(badges); right.appendChild(chev);
     main.appendChild(right);
